@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f5c7a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Accès Site">
+<title>Accès Site</title>
+<style>
+:root{--bg:#f3f5f8;--card:#fff;--ink:#0b1f33;--mut:#5b6b7c;--line:#e2e7ee;--pri:#0f5c7a;--pri2:#e6f1f5;--ok:#1e7a46;--okb:#e5f4ea;--warn:#9a5800;--warnb:#fdf1dc;--bad:#b42318;--badb:#fde8e6;--blu:#1d4ed8;--blub:#e7eefc;--r:14px}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit;cursor:pointer}
+.app{max-width:640px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:5;background:var(--pri);color:#fff;padding:calc(env(safe-area-inset-top) + 10px) 16px 12px}
+.top-row{display:flex;align-items:center;gap:8px;min-height:32px}
+.top h1{font-size:17px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.back{background:none;border:0;color:#fff;font-size:26px;line-height:1;padding:0 8px 0 0}
+.tag{font-size:11px;font-weight:700;background:rgba(255,255,255,.18);padding:4px 9px;border-radius:999px;white-space:nowrap;border:0;color:#fff;font-family:inherit}
+.atts{list-style:none;padding:0;margin:-4px 0 10px 32px}.atts li{display:flex;gap:8px;align-items:center;font-size:13px;padding:4px 0;color:var(--mut)}.atts li span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.attbtn{display:inline-block;margin:-6px 0 8px 32px;font-size:13px;font-weight:600;color:var(--pri);position:relative;overflow:hidden}.attbtn input{position:absolute;inset:0;opacity:0}
+main{flex:1;padding:16px 16px calc(92px + env(safe-area-inset-bottom))}
+.tabbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom);z-index:5}
+.tabbar .in{display:flex;max-width:640px;width:100%}
+.tabbar button{flex:1;border:0;background:none;padding:9px 4px 8px;font-size:11.5px;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:3px}
+.tabbar .ic{font-size:20px;line-height:1}
+.tabbar button.on{color:var(--pri);font-weight:700}
+.nb{background:var(--bad);color:#fff;border-radius:9px;font-size:10px;padding:1px 6px;margin-left:4px;font-weight:700}
+h2{font-size:21px;margin:4px 0 12px}
+.sub{color:var(--mut);font-size:14px;margin:-6px 0 14px}
+.sec{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:22px 0 8px}
+.card{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px;margin-bottom:10px;font:inherit;color:inherit}
+.card:active{background:#f7f9fb}
+.card.selected{border-color:var(--pri);background:var(--pri2)}
+.ck{width:24px;height:24px;border-radius:7px;border:2px solid #b5c2cf;display:grid;place-items:center;color:#fff;flex:none;font-size:14px;font-weight:700}
+.selected .ck{background:var(--pri);border-color:var(--pri)}
+.av{width:42px;height:42px;border-radius:50%;background:var(--pri2);color:var(--pri);display:grid;place-items:center;font-weight:700;flex:none;font-size:15px}
+.av.g{background:var(--okb);color:var(--ok)} .av.r{background:var(--badb);color:var(--bad)}
+.av.lg{width:58px;height:58px;font-size:21px}
+.body{flex:1;min-width:0}
+.t{font-weight:650}
+.m{color:var(--mut);font-size:13px}
+.chev{color:#a8b4c1;font-size:24px}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}
+.pill{font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:999px;background:#eef1f5;color:var(--mut)}
+.pill.amber{background:var(--warnb);color:var(--warn)} .pill.green{background:var(--okb);color:var(--ok)}
+.pill.red{background:var(--badb);color:var(--bad)} .pill.blue{background:var(--blub);color:var(--blu)}
+.plate{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;border:2px solid var(--ink);border-radius:6px;padding:1px 7px;background:#fff;letter-spacing:.5px;font-size:12px;white-space:nowrap}
+.plate.lg{font-size:26px;padding:6px 16px;border-width:3px;display:inline-block}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.panel h3{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:0 0 10px}
+.center{text-align:center}
+.kv{display:grid;grid-template-columns:40% 1fr;gap:7px 10px;font-size:14px;margin:0}
+.kv dt{color:var(--mut)} .kv dd{margin:0;word-break:break-word}
+.hero{display:flex;gap:14px;align-items:center;margin:4px 0 16px}
+.hero .t{font-size:19px}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:15px;font-size:16px;font-weight:650;background:var(--pri);color:#fff;margin-top:10px;text-align:center;text-decoration:none}
+.btn.sec2{background:var(--pri2);color:var(--pri)} .btn.ok{background:var(--ok)} .btn.bad{background:var(--bad)}
+.btn.ghost{background:#fff;color:var(--pri);border:1px solid var(--line)}
+.btn.danger{color:var(--bad)}
+.row2{display:flex;gap:10px;margin-bottom:12px} .row2 .btn{flex:1}
+.link{background:none;border:0;color:var(--pri);font-weight:600;font-size:14px;padding:8px 0;display:block;margin:6px auto 0}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.fld{display:block;margin-bottom:12px}
+.fld>span{display:block;font-size:13px;color:var(--mut);margin-bottom:5px;font-weight:600}
+.fld input,.fld select,.fld textarea{width:100%;font-size:16px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-family:inherit;-webkit-appearance:none;appearance:none}
+.fld.err input,.fld.err select{border-color:var(--bad);background:var(--badb)}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-top:12px}
+.chk input{width:22px;height:22px;flex:none;margin:0}
+.steps{display:flex;gap:4px;margin-bottom:14px} .steps i{flex:1;height:4px;border-radius:2px;background:var(--line)} .steps i.on{background:var(--pri)}
+.opt{border:2px solid var(--line);border-radius:var(--r);padding:16px;background:#fff;text-align:left;font:inherit;color:inherit;display:flex;gap:14px;align-items:center;width:100%;margin-bottom:10px}
+.opt .big{font-size:32px}
+.seg{display:flex;background:#eef1f5;border-radius:10px;padding:3px;margin:8px 0 12px}
+.seg button{flex:1;border:0;background:none;padding:9px 6px;border-radius:8px;font-weight:600;color:var(--mut);font-size:14px}
+.seg button.on{background:#fff;color:var(--pri);box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.sig{width:100%;height:170px;border:1.5px dashed #9fb0c2;border-radius:12px;background:#fff;touch-action:none;display:block}
+.lbl{display:block;font-size:13px;color:var(--mut);margin-bottom:5px;font-weight:600}
+.docs{list-style:none;padding:0;margin:0}
+.docs li{padding:8px 0 8px 26px;position:relative;font-size:14px;border-bottom:1px solid var(--line)}
+.docs li:last-child{border:0}
+.docs li::before{position:absolute;left:2px;top:7px;font-weight:700}
+.docs li.ok::before{content:"✓";color:var(--ok)} .docs li.na::before{content:"–";color:var(--mut)} .docs li.wait::before{content:"○";color:var(--warn)}
+.search{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);font-size:16px;margin-bottom:6px;background:#fff;-webkit-appearance:none;appearance:none}
+.empty{text-align:center;color:var(--mut);padding:16px 10px;font-size:14px}
+.tl{font-size:13.5px} .tl div{padding:6px 0;border-bottom:1px solid var(--line)} .tl div:last-child{border:0}
+.hint{background:#fff8e6;border:1px solid #f3dca4;border-radius:12px;padding:12px;font-size:13.5px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-start}
+.hint.ok{background:var(--okb);border-color:#bfe3cb}
+.hint.bad{background:var(--badb);border-color:#f5c2bd}
+.hint.info{background:var(--pri2);border-color:#c9e0e8}
+.datestrip{display:flex;gap:8px;overflow-x:auto;margin:6px -16px 8px;padding:4px 16px 8px;scrollbar-width:none}
+.datestrip::-webkit-scrollbar{display:none}
+.day{flex:none;width:56px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 0 6px;text-align:center;font:inherit;color:inherit}
+.day small{display:block;font-size:11px;color:var(--mut);text-transform:capitalize}
+.day b{display:block;font-size:19px}
+.day i{display:block;width:6px;height:6px;border-radius:3px;background:var(--warn);margin:3px auto 0}
+.day i.z{visibility:hidden}
+.day.on{background:var(--pri);color:#fff;border-color:var(--pri)} .day.on small{color:#d6e7ee} .day.on i{background:#fff}
+.onb{padding-top:10px} .logo{font-size:46px;text-align:center;margin:10px 0 4px}
+.lockv{padding-top:60px;text-align:center}
+.modal{position:fixed;inset:0;background:rgba(10,20,30,.5);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.modal .box{background:var(--bg);width:100%;max-width:840px;max-height:92vh;border-radius:18px 18px 0 0;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
+.modal .bar{display:flex;gap:8px;padding:12px;border-bottom:1px solid var(--line);align-items:center}
+.modal .bar .btn{margin:0;width:auto;padding:10px 14px;font-size:14px}
+.modal .scroll{overflow:auto;padding:16px;-webkit-overflow-scrolling:touch}
+.pdfv{width:100%;height:62vh;border:0;background:#fff}
+.files{list-style:none;padding:0;margin:0 0 6px} .files li{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:6px;font-size:14px;word-break:break-all}
+.hidden{display:none!important}
+.toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#0b1f33;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;z-index:40;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top"><div class="top-row">
+    <button id="back" class="back hidden" data-act="back" aria-label="Retour">‹</button>
+    <h1 id="title">Accès Site</h1><button id="roleTag" class="tag hidden" data-act="switch-role" title="Changer de profil">⇄ </button>
+  </div></header>
+  <main id="view"></main>
+</div>
+<nav class="tabbar" id="tabbar"><div class="in" id="tabs"></div></nav>
+<div id="modal" class="modal hidden"></div>
+<div id="toast" class="toast"></div>
+
+<script src="fidaa-template.js"></script>
+<script>
+'use strict';
+/* =====================================================================
+   ACCÈS SITE — v3 (site de test)
+   Tout est stocké sur le téléphone (IndexedDB). Aucun serveur.
+   Les échanges se font par fichiers PDF qui contiennent aussi les données
+   lisibles par l'app (bloc ACCESSITE intégré au PDF).
+   La FIDAA est redessinée à l'identique du modèle officiel à partir de
+   fidaa-template.js (généré par outils/extract_template.py).
+   ===================================================================== */
+
+/* ---------- Utilitaires ---------- */
+const $ = s => document.querySelector(s);
+const h = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const iso = d => new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10);
+const todayISO = () => iso(new Date());
+const addDays = (n, base) => { const d = base ? new Date(base+'T12:00') : new Date(); d.setDate(d.getDate()+n); return iso(d); };
+const fmtD = s => s ? String(s).slice(0,10).split('-').reverse().join('/') : '—';
+const now = () => new Date().toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'});
+const nowISO = () => new Date().toISOString();
+const hm = () => new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+const clone = o => JSON.parse(JSON.stringify(o ?? null));
+const empty = t => `<div class="empty">${t}</div>`;
+const ini = (p,n) => h(((p||'?')[0] + (n||'?')[0]).toUpperCase());
+const longDate = d => new Date(d+'T12:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+const kb = n => n > 1e6 ? (n/1e6).toFixed(1)+' Mo' : Math.max(1,Math.round(n/1e3))+' Ko';
+const safe = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9._-]+/g,'_').replace(/^_+|_+$/g,'').slice(0,60) || 'sans_nom';
+function getPath(o,p){ return p.split('.').reduce((a,k)=>a==null?undefined:a[k],o); }
+function setPath(o,p,v){ const ks=p.split('.'); let a=o; ks.slice(0,-1).forEach(k=>{ if(a[k]==null||typeof a[k]!=='object') a[k]={}; a=a[k]; }); a[ks[ks.length-1]]=v; }
+function siretOk(s){
+  s=String(s).replace(/\s/g,''); if(!/^\d{14}$/.test(s)) return false;
+  let sum=0; for(let i=0;i<14;i++){ let n=+s[13-i]; if(i%2){ n*=2; if(n>9) n-=9; } sum+=n; }
+  return sum%10===0 || s.startsWith('356000000');
+}
+const withLuhn = b => { for(let d=0;d<10;d++) if(siretOk(b+d)) return (b+d).replace(/^(\d{3})(\d{3})(\d{3})(\d{5})$/,'$1 $2 $3 $4'); return b+'0'; };
+function u8ToBin(u){ let s=''; for(let i=0;i<u.length;i+=0x8000) s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000)); return s; }
+function binToU8(s){ const u=new Uint8Array(s.length); for(let i=0;i<s.length;i++) u[i]=s.charCodeAt(i)&255; return u; }
+async function blobToB64(b){ return btoa(u8ToBin(new Uint8Array(await b.arrayBuffer()))); }
+const b64ToBlob = (b64,type) => new Blob([binToU8(atob(b64))],{type});
+const utf8ToB64 = s => btoa(u8ToBin(new TextEncoder().encode(s)));
+const b64ToUtf8 = b => new TextDecoder().decode(binToU8(atob(b)));
+function dl(blob,name){ const a=document.createElement('a'), url=URL.createObjectURL(blob); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),5000); }
+async function hash(s){
+  try{ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('acces-site:'+s)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''); }
+  catch(e){ let x=7; for(const c of 'acces-site:'+s) x=(x*31+c.charCodeAt(0))|0; return 'w'+x; }
+}
+
+/* ---------- Stockage local (IndexedDB, repli en mémoire) ---------- */
+const Store = {
+  db:null, mem:{kv:new Map(), files:new Map()},
+  async open(){
+    try{ this.db = await new Promise((res,rej)=>{ const r=indexedDB.open('acces-site-v2',1);
+      r.onupgradeneeded=()=>{ r.result.createObjectStore('kv'); r.result.createObjectStore('files'); };
+      r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+    catch(e){ this.db=null; }
+  },
+  _tx(store,mode,fn){ return new Promise((res,rej)=>{ const t=this.db.transaction(store,mode), q=fn(t.objectStore(store)); t.oncomplete=()=>res(q&&q.result); t.onerror=()=>rej(t.error); t.onabort=()=>rej(t.error); }); },
+  get(st,k){ return this.db ? this._tx(st,'readonly',s=>s.get(k)) : Promise.resolve(this.mem[st].get(k)); },
+  put(st,k,v){ return this.db ? this._tx(st,'readwrite',s=>s.put(v,k)) : Promise.resolve(this.mem[st].set(k,v)); },
+  del(st,k){ return this.db ? this._tx(st,'readwrite',s=>s.delete(k)) : Promise.resolve(this.mem[st].delete(k)); },
+  clear(){ return this.db ? Promise.all(['kv','files'].map(n=>this._tx(n,'readwrite',s=>s.clear()))) : Promise.resolve((this.mem.kv.clear(),this.mem.files.clear())); }
+};
+async function saveFile(id,blob,name){ await Store.put('files',id,{type:blob.type||'application/pdf',name:name||blob.name||id,buf:await blob.arrayBuffer()}); }
+async function getFile(id){ if(!id) return null; const r=await Store.get('files',id); return r ? new File([r.buf], r.name, {type:r.type}) : null; }
+const delFile = id => id ? Store.del('files',id).catch(()=>{}) : Promise.resolve();
+
+const defaultS = () => ({role:null, company:null, ca:null, garde:null, settings:{pinHash:null, retention:180},
+  employees:[], requests:[], dossiers:[], gate:[], log:[], seq:0, lastInter:null, hintDone:false});
+let S = defaultS();
+function persist(){ return Store.put('kv','S',clone(S)).catch(()=>toast('Enregistrement impossible sur cet appareil')); }
+function requestPersist(){ try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(e){} }
+
+/* ---------- Champs (FIDAA : alignés sur le modèle officiel ; Accès véhicule : provisoire) ---------- */
+const VTYPES = ['Véhicule léger','Utilitaire','Poids lourd','Engin'];
+const TIT = ['Notre société','Une autre société'];
+const FD = {
+  company:[['raison','Raison sociale',1],['siret','SIRET (14 chiffres)',1,'siret'],['adresse','Adresse (n°, rue)',1],['cp','Code postal',1],['ville','Ville',1],['pays','Pays',1],['tel','Téléphone',1,'tel'],['email','E-mail de la société',1,'email'],
+    ['dirNom','Nom du représentant (signataire)',1],['dirPrenom','Prénom du représentant',1],['dirFonction','Fonction du représentant',1],['dirTel','Téléphone du représentant',0,'tel']],
+  employee:[['nom','Nom / nom de jeune fille',1],['prenom','Prénom',1],['naissance','Date de naissance',1,'date'],['lieuNaissance','Lieu de naissance (département / pays)',1],['nationalite','Nationalité',1],['fonction','Métier',1],['tel','Téléphone',0,'tel']],
+  empAddr:[['adresse','Adresse personnelle',0],['cp','Code postal',0],['ville','Ville',0],['pays','Pays',0]],
+  empJob:[['dateEntree','Date d’entrée dans l’entreprise',0,'date'],['interim','Intérimaire',0,'check',null,1]],
+  agence:[['raison','Agence d’intérim (raison sociale)',1],['siret','SIRET de l’agence',1,'siret'],['adresse','Adresse (n°, rue)',1],['cp','Code postal',1],['ville','Ville',1],['pays','Pays',1],['tel','Téléphone',0,'tel']],
+  hab:[['atex','ATEX — préciser 0, 1 ou 2',0,'select',['','0','1','2']],['gies','GIES — préciser 1 ou 2',0,'select',['','1','2']],['m','M — préciser 0, 1 ou 2',0,'select',['','0','1','2']],
+    ['b','B (ex. B1V, BR…)',0],['h','H (ex. H0V, H1…)',0],['e','E/ES',0],['ct','Chargé de travaux',0,'check'],['aucune','Aucune',0,'check'],['autres','Autres',0,'check']],
+  docs:[['identite','Copie pièce d’identité en cours de validité',0,'check'],['habTitre','Copie titre d’habilitations H/B/M 0 (a minima)',0,'check'],['btp','Copie de la carte BTP',0,'check'],['autTravail','Autorisation de travail (hors EEE, Suisse, Andorre, Monaco, Saint-Marin)',0,'check'],
+    ['a1','Formulaire A1 ou équivalent (employeur hors de France)',0,'check'],['designation','Lettre de désignation du représentant en France',0,'check'],['detachement','Convention de détachement',0,'check'],['amendes','Attestation sur l’honneur d’acquittement des amendes',0,'check'],
+    ['apte','J’atteste que le salarié est médicalement apte à réaliser l’intervention',0,'check']],
+  vehicle:[['immat','Immatriculation',1],['marque','Marque / modèle',1],['type','Type',1,'select',VTYPES],['assurance','N° de police d’assurance',1]],
+  intervention:[['objet','Prestation',1],['commande','N° de commande',0],['du','Du',1,'date'],['au','Au',1,'date'],['horaires','Horaires',0],['site','Site',0],['lieu','Lieu / bâtiment',0],
+    ['titulaire','Titulaire de la commande',1,'select',TIT,1],['caNom','Chargé d’affaires destinataire',1,'text',()=>(S.caBook||[]).map(c=>c.nom)],['caEmail','E-mail du chargé d’affaires',0,'email']],
+  tit:[['raison','Société titulaire',1],['siret','SIRET',1,'siret'],['adresse','Adresse (n°, rue)',1],['cp','Code postal',1],['ville','Ville',1],['pays','Pays',0],['repNom','Représentant — nom',1],['repPrenom','Représentant — prénom',1],['repFonction','Représentant — fonction',0],['repTel','Représentant — téléphone',0,'tel']],
+  ca:[['prenom','Prénom',1],['nom','Nom',1],['service','Service',1],['fonction','Fonction',1],['tel','Téléphone',0,'tel'],['email','E-mail',0,'email'],['site','Site / chantier',1]],
+  garde:[['site','Site',1],['poste','Nom du poste de garde',0]],
+  signer:[['nom','Nom du signataire',1],['prenom','Prénom du signataire',1],['fonction','Fonction',1],['date','Date',1,'date']]
+};
+FD.vehicleReq = [...FD.vehicle, ['motif','Motif de l’accès véhicule',1]];
+const FORMK = {
+  company:{defs:'company', title:v=>v.onboarding?'Votre entreprise':'Modifier l’entreprise', sub:'Informations uniques de la société, reprises automatiquement sur chaque document.'},
+  ca:{defs:'ca', title:v=>v.onboarding?'Votre profil':'Modifier le profil', sub:'Ces informations apparaissent sur la liste envoyée au poste de garde.'},
+  garde:{defs:'garde', title:v=>v.onboarding?'Poste de garde':'Modifier le poste', sub:'Identifie ce téléphone au poste de garde.'},
+  employee:{defs:'employee', title:v=>v.id?'Fiche salarié':'Nouveau salarié', sub:'Informations propres à chaque salarié.'}
+};
+const ROLE_L = {ent:'Entreprise', ca:'Chargé d’affaires', garde:'Poste de garde'};
+const RS = {a_signer:{l:'À signer',c:'amber'}, signee:{l:'Signée',c:'blue'}, envoyee:{l:'Envoyée',c:'green'}};
+const DS = {recu:{l:'À valider',c:'amber'}, valide:{l:'Validé',c:'blue'}, transmis:{l:'Transmis au poste de garde',c:'green'}, refuse:{l:'Refusé',c:'red'}};
+const modeL = m => m==='vehicule' ? '🚶🚐 Piéton + véhicule' : '🚶 Piéton';
+const pill = (o,s) => `<span class="pill ${o[s].c}">${o[s].l}</span>`;
+const TABS = {
+  ent:[['salaries','Salariés','👷'],['demandes','Demandes','📄'],['reglages','Société','🏢']],
+  ca:[['planning','Planning','📅'],['dossiers','Dossiers','🗂️'],['reglages','Réglages','⚙️']],
+  garde:[['today','Aujourd’hui','🚧'],['registre','Registre','📋'],['reglages','Réglages','⚙️']]
+};
+
+/* ---------- État d’interface ---------- */
+const ui = {tab:{ent:'salaries',ca:'planning',garde:'today'}, view:null, stack:[], q:'', day:todayISO(), form:null, wiz:null, sigImg:null, share:null, pdf:null, locked:false, storeInfo:''};
+
+/* =====================================================================
+   PDF — générateur minimal (Helvetica, images JPEG, données intégrées)
+   ===================================================================== */
+const PW=595.28, PH=841.89, PM=40, CW=PW-2*PM;
+const WA={'€':128,'‚':130,'„':132,'…':133,'Œ':140,'‘':145,'’':146,'“':147,'”':148,'•':149,'–':150,'—':151,'→':150,'™':153,'œ':156,'Ÿ':159};
+function winAnsi(s){ let o=''; for(const ch of String(s??'')){ const c=ch.codePointAt(0);
+  if(c===10||c===13||c===9) o+=' '; else if(c<128||(c>=160&&c<=255)) o+=String.fromCharCode(c); else if(WA[ch]) o+=String.fromCharCode(WA[ch]); else if(c===0x202F) o+=' '; else o+='?'; } return o; }
+const pdfStr = s => winAnsi(s).replace(/[\\()]/g,m=>'\\'+m);
+function tw(s,sz,b){ const W=HELV_W[b?'B':'R']; let w=0; for(const ch of winAnsi(s)) w+=W[ch.charCodeAt(0)]||556; return w*sz/1000; }
+function wrap(s,maxW,sz,b){ const out=[]; let line='';
+  String(s??'').split(/\s+/).filter(Boolean).forEach(w=>{
+    while(tw(w,sz,b)>maxW){ let i=w.length; while(i>1&&tw(w.slice(0,i),sz,b)>maxW) i--; if(line){ out.push(line); line=''; } out.push(w.slice(0,i)); w=w.slice(i); }
+    const t=line?line+' '+w:w; if(tw(t,sz,b)<=maxW) line=t; else { out.push(line); line=w; } });
+  if(line||!out.length) out.push(line); return out; }
+function fit(s,maxW,sz,b){ s=String(s??''); if(tw(s,sz,b)<=maxW) return s; while(s.length&&tw(s+'…',sz,b)>maxW) s=s.slice(0,-1); return s+'…'; }
+const f2 = n => (+n).toFixed(2);
+class Doc{
+  constructor(){ this.pages=[]; this.images=[]; this.data=null; this.add(); }
+  add(){ this.c=[]; this.pages.push(this.c); this.y=PH-PM; }
+  raw(s){ this.c.push(s); }
+  ensure(hh){ if(this.y-hh < PM+28) this.add(); }
+  text(x,y,s,sz=10,b=false,g=0){ this.c.push(`${g} g BT /${b?'F2':'F1'} ${sz} Tf ${f2(x)} ${f2(y)} Td (${pdfStr(s)}) Tj ET 0 g`); }
+  fill(x,y,w,hh,g){ this.c.push(`${g} g ${f2(x)} ${f2(y)} ${f2(w)} ${f2(hh)} re f 0 g`); }
+  box(x,y,w,hh,g){ if(g!=null) this.fill(x,y,w,hh,g); this.c.push(`0.55 G 0.6 w ${f2(x)} ${f2(y)} ${f2(w)} ${f2(hh)} re S 0 G`); }
+  hline(x1,x2,y,w=1){ this.c.push(`${w} w ${f2(x1)} ${f2(y)} m ${f2(x2)} ${f2(y)} l S`); }
+  img(im,x,y,w,hh){ this.images.push(im); this.c.push(`q ${f2(w)} 0 0 ${f2(hh)} ${f2(x)} ${f2(y)} cm /Im${this.images.length} Do Q`); }
+  build(){
+    const objs=[], add=s=>{ objs.push(s); return objs.length; };
+    const cat=add(''), pages=add('');
+    const F1=add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+    const F2=add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+    const F3=add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>');
+    const F4=add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-BoldOblique /Encoding /WinAnsiEncoding >>');
+    const F5=add('<< /Type /Font /Subtype /Type1 /BaseFont /ZapfDingbats >>');
+    const imgs=this.images.map(im=>add(`<< /Type /XObject /Subtype /Image /Width ${im.w} /Height ${im.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${im.bin.length} >>\nstream\n${im.bin}\nendstream`));
+    const xo=imgs.map((n,i)=>`/Im${i+1} ${n} 0 R`).join(' ');
+    const n=this.pages.length, gen=new Date().toLocaleString('fr-FR',{dateStyle:'short',timeStyle:'short'});
+    const kids=this.pages.map((p,i)=>{
+      const foot=`0.45 g BT /F1 7.5 Tf ${PM} 22 Td (${pdfStr('Accès Site — document généré le '+gen+' — trame provisoire')}) Tj ET BT /F1 7.5 Tf ${f2(PW-PM-40)} 22 Td (${pdfStr('Page '+(i+1)+'/'+n)}) Tj ET 0 g`;
+      const c=(p.noFoot?p:p.concat(foot)).join('\n'); const cn=add(`<< /Length ${c.length} >>\nstream\n${c}\nendstream`);
+      return add(`<< /Type /Page /Parent ${pages} 0 R /MediaBox [0 0 ${PW} ${PH}] /Resources << /Font << /F1 ${F1} 0 R /F2 ${F2} 0 R /F3 ${F3} 0 R /F4 ${F4} 0 R /F5 ${F5} 0 R >> /XObject << ${xo} >> >> /Contents ${cn} 0 R >>`);
+    });
+    let dataRef='';
+    if(this.data){ const s=`%ACCESSITE-BEGIN\n${utf8ToB64(JSON.stringify(this.data))}\n%ACCESSITE-END`; dataRef=` /AccesSiteData ${add(`<< /Length ${s.length} >>\nstream\n${s}\nendstream`)} 0 R`; }
+    objs[cat-1]=`<< /Type /Catalog /Pages ${pages} 0 R${dataRef} >>`;
+    objs[pages-1]=`<< /Type /Pages /Kids [${kids.map(k=>k+' 0 R').join(' ')}] /Count ${kids.length} >>`;
+    const info=add(`<< /Producer (Acces Site) /Title (${pdfStr(this.title||'Acces Site')}) >>`);
+    let out='%PDF-1.4\n%\xE2\xE3\xCF\xD3\n'; const offs=[];
+    objs.forEach((o,i)=>{ offs.push(out.length); out+=`${i+1} 0 obj\n${o}\nendobj\n`; });
+    const xref=out.length;
+    out+=`xref\n0 ${objs.length+1}\n0000000000 65535 f \n`+offs.map(o=>String(o).padStart(10,'0')+' 00000 n \n').join('');
+    out+=`trailer\n<< /Size ${objs.length+1} /Root ${cat} 0 R /Info ${info} 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
+    return new Blob([binToU8(out)],{type:'application/pdf'});
+  }
+}
+async function extractData(blob){
+  try{ const s=u8ToBin(new Uint8Array(await blob.arrayBuffer()));
+    const a=s.lastIndexOf('%ACCESSITE-BEGIN\n'); if(a<0) return null;
+    const b=s.indexOf('\n%ACCESSITE-END',a); if(b<0) return null;
+    return JSON.parse(b64ToUtf8(s.slice(a+17,b).replace(/\s/g,''))); }catch(e){ return null; }
+}
+/* Signature (PNG transparent) -> JPEG sur la couleur de fond de la case, pour se fondre dans le document */
+function sigToJpeg(dataUrl,bg){ return new Promise(res=>{ if(!dataUrl) return res(null); const im=new Image();
+  im.onload=()=>{ const c=document.createElement('canvas'); c.width=im.width; c.height=im.height; const x=c.getContext('2d'); x.fillStyle=bg?`rgb(${bg.map(v=>Math.round(v*255)).join(',')})`:'#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0); const d=c.toDataURL('image/jpeg',0.85); res({bin:atob(d.split(',')[1]),w:c.width,h:c.height}); };
+  im.onerror=()=>res(null); im.src=dataUrl; }); }
+function pHeader(d,title,sub,right){
+  d.text(PM,d.y-20,title,20,true); d.text(PM,d.y-36,sub,9.5,false,0.3);
+  const r2='Édité le '+fmtD(todayISO());
+  d.text(PW-PM-tw(right,9.5,true),d.y-16,right,9.5,true); d.text(PW-PM-tw(r2,8.5),d.y-29,r2,8.5,false,0.3);
+  d.y-=46; d.hline(PM,PW-PM,d.y,1.5); d.y-=10;
+}
+function pSection(d,t){ d.ensure(44); d.fill(PM,d.y-17,CW,17,0.9); d.text(PM+6,d.y-12,t.toUpperCase(),8.5,true); d.y-=17; }
+function pRow(d,label,val){ const LW=170, L=wrap(val||'',CW-LW-12,9.5), LL=wrap(label,LW-12,8.5,true), hh=Math.max(L.length,LL.length)*12+8;
+  d.ensure(hh); d.box(PM,d.y-hh,LW,hh,0.97); d.box(PM+LW,d.y-hh,CW-LW,hh);
+  LL.forEach((l,i)=>d.text(PM+6,d.y-13-i*12,l,8.5,true)); L.forEach((l,i)=>d.text(PM+LW+6,d.y-13-i*12,l,9.5)); d.y-=hh; }
+function pSig(d,im,cap){ const hh=82; d.ensure(hh); d.box(PM,d.y-hh,CW,hh); d.text(PM+6,d.y-12,cap,8,false,0.4);
+  if(im){ const sc=Math.min((CW*0.45)/im.w,(hh-20)/im.h), w=im.w*sc, ih=im.h*sc; d.img(im,PM+(CW-w)/2,d.y-hh+4,w,ih); } d.y-=hh; }
+const dv = v => /^\d{4}-\d\d-\d\d$/.test(v||'') ? fmtD(v) : (v||'');
+
+/* ---------- FIDAA à l'identique du modèle ---------- */
+const FONT_OF={R:'F1',B:'F2',I:'F3',BI:'F4'};
+const rgb = c => c.map(v=>+(+v).toFixed(3)).join(' ');
+function fTxt(d,x,y,s,sz,st,c,tz){ d.raw(`q ${rgb(c)} rg BT /${FONT_OF[st]||'F1'} ${sz} Tf ${tz&&tz!==100?tz+' Tz ':''}${f2(x)} ${f2(y)} Td (${pdfStr(s)}) Tj ET Q`); }
+function fField(d,k,v){
+  const f=FIDAA_TPL.fields[k]; v=String(v??'').replace(/\s+/g,' ').trim(); if(!f||!v) return;
+  const b=f.st.includes('B'), pad=2, maxW=f.x1-f.x0-2*pad; let sz=f.size;
+  while(sz>f.size*0.72 && tw(v,sz,b)>maxW) sz=+(sz-0.25).toFixed(2);
+  const s=fit(v,maxW,sz,b), w=tw(s,sz,b);
+  const x = f.al==='center' ? (f.x0+f.x1-w)/2 : f.al==='right' ? f.x1-pad-w : f.x0+pad;
+  fTxt(d,x,f.y,s,sz,f.st,f.c);
+  if(k==='caEmail') d.raw(`q ${rgb(f.c)} RG 0.4 w ${f2(x)} ${f2(f.y-1)} m ${f2(x+w)} ${f2(f.y-1)} l S Q`);
+}
+/* Case à cocher « ❒ » dessinée en vecteurs (même aspect que le modèle, sans dépendre d'une police) */
+function boxGlyph(x,y,s,c){ const r=(a,b,w,hh)=>`${f2(x+a*s)} ${f2(y+b*s)} ${f2(w*s)} ${f2(hh*s)} re`;
+  return `q ${rgb(c)} rg ${r(0.08,0.035,0.05,0.665)} ${r(0.08,0.035,0.6,0.05)} ${r(0.665,0.07,0.133,0.63)} ${r(0.11,0.57,0.687,0.13)} f Q`; }
+function fidaaPage(d,V,B,SG,dyn,stamp){
+  const T=FIDAA_TPL; d.c.noFoot=true;
+  for(const o of T.ops){
+    if(o[0]==='r') d.raw(`${rgb(o[5])} rg ${f2(o[1])} ${f2(o[2])} ${f2(o[3])} ${f2(o[4])} re f`);
+    else if(o[0]==='l') d.raw(`${rgb(o[6])} RG ${o[5]} w ${f2(o[1])} ${f2(o[2])} m ${f2(o[3])} ${f2(o[4])} l S`);
+    else if(o[0]==='z') d.raw(boxGlyph(o[1],o[2],o[3],o[4]));
+    else if(o[0]==='t') fTxt(d,o[1],o[2],o[6],o[3],o[4],o[5],o[7]);
+    else if(o[0]==='d') fTxt(d,o[1],o[2],dyn||o[6],o[3],o[4],o[5],o[7]);
+  }
+  d.raw('0 g 0 G 1 w');
+  if(T.logo){ const L=T.logo; d.img({bin:atob(L.b64),w:L.pw,h:L.ph},L.x,L.y,L.w,L.h); }
+  Object.entries(V).forEach(([k,v])=>fField(d,k,v));
+  B.forEach(k=>{ const b=T.boxes[k]; if(!b) return; const [x,y,s]=b, X=v=>f2(x+v*s), Y=v=>f2(y+v*s);
+    d.raw(`q 0 G ${f2(0.09*s)} w 1 J ${X(0.2)} ${Y(0.14)} m ${X(0.6)} ${Y(0.52)} l S ${X(0.2)} ${Y(0.52)} m ${X(0.6)} ${Y(0.14)} l S Q`); });
+  Object.entries(SG).forEach(([k,im])=>{ if(!im) return; const [x0,y0b,x1,y1]=T.sigs[k], y0=y0b+(k==='edf'&&stamp?6:0), m=1.5, W=x1-x0-2*m, Hh=y1-y0-2*m, sc=Math.min(W/im.w,Hh/im.h), w=im.w*sc, hh=im.h*sc;
+    d.img(im,x0+m+(W-w)/2,y0+m+(Hh-hh)/2,w,hh); });
+  if(stamp){ const [x0,y0,x1]=T.sigs.edf, w=tw(stamp,5.8,false); fTxt(d,x1-3-w,y0+2.5,stamp,5.8,'I',[0.25,0.25,0.25]); }
+}
+const place = (...a) => a.map(s=>String(s||'').trim()).filter(Boolean).join(', ');
+function fidaaValues(r){
+  const co=r.company||{}, e=r.emp||{}, I=r.intervention||{}, sg=r.signature, va=r.validation, Hb=e.hab||{}, Dc=e.docs||{};
+  const autre = I.titulaire===TIT[1], t=I.tit||{};
+  const T = autre ? t : {raison:co.raison,siret:co.siret,adresse:co.adresse,cp:co.cp,ville:co.ville,pays:co.pays,repNom:co.dirNom,repPrenom:co.dirPrenom,repFonction:co.dirFonction,repTel:co.dirTel||co.tel};
+  const ag = e.interim ? (e.agence||{}) : null, emp = ag || co;
+  const V = {prestation:I.objet, commande:I.commande, pSociete:T.raison, pSiret:T.siret, pAdresse:T.adresse, pVille:place(T.ville,T.cp,T.pays), du:fmtD(I.du), au:fmtD(I.au),
+    repNom:T.repNom, repPrenom:T.repPrenom, repFonction:T.repFonction, repTel:T.repTel,
+    nom:e.nom, prenom:e.prenom, naissance:dv(e.naissance), lieuNaissance:e.lieuNaissance, nationalite:e.nationalite, adresse:e.adresse, ville:place(e.ville,e.cp,e.pays),
+    metier:e.fonction, tel:e.tel, dateEntree:dv(e.dateEntree), atex:Hb.atex, gies:Hb.gies, hm:Hb.m, habB:Hb.b, habH:Hb.h, habE:Hb.e,
+    eSociete:emp.raison, eSiret:emp.siret, eAdresse:emp.adresse, eTel:emp.tel, eCp:emp.cp, eVille:emp.ville, ePays:emp.pays, eCommande:ag?'':I.commande,
+    viNom:e.nom, viPrenom:e.prenom, veNom:sg&&sg.nom, vePrenom:sg&&sg.prenom};
+  if(ag) Object.assign(V,{uSociete:co.raison, uSiret:co.siret, uAdresse:co.adresse, uTel:co.tel, uCp:co.cp, uVille:co.ville, uPays:co.pays, uCommande:I.commande});
+  if(va) Object.assign(V,{caNom:va.nom, caService:va.service, caFonction:va.fonction, caTel:va.tel, caEmail:va.email, edfNom:va.nom, edfPrenom:va.prenom});
+  const B=[e.interim?'intOui':'intNon', !ag&&!autre?'titOui':'titNon'];
+  [['atex','atex'],['gies','gies'],['m','m'],['b','b'],['h','h'],['e','e']].forEach(([k,box])=>{ if(String(Hb[k]||'').trim()) B.push(box); });
+  if(Hb.ct) B.push('ct'); if(Hb.aucune) B.push('aucune'); if(Hb.autres) B.push('autres');
+  ['identite','habTitre','btp','autTravail','a1','designation','detachement','amendes','apte'].forEach(k=>{ if(Dc[k]) B.push(k); });
+  if(va) B.push(va.h24?'h24Oui':'h24Non');
+  return {V,B};
+}
+async function makeRequestPdf(r, data){
+  const co=r.company||{}, sg=r.signature, I=r.intervention||{}, va=r.validation;
+  const im=sg&&sg.img?await sigToJpeg(sg.img):null;
+  const sigCap = !sg ? 'Signature et cachet de l’entreprise' : sg.method==='pdf' ? 'Original signé à la main joint au dossier' : im ? 'Signature' : 'Signé dans l’app';
+  const d=new Doc(); d.title='FIDAA '+r.ref;
+  const {V,B}=fidaaValues(r);
+  const dyn = sg&&sg.date ? `${fmtD(sg.date).split('/').join('  /  ')}   par : ${[sg.prenom,sg.nom].filter(Boolean).join(' ')}` : null;
+  const SG = {vi: r.empSig ? await sigToJpeg(r.empSig,[0.847,0.894,0.737]) : null, ve: sg&&sg.img ? await sigToJpeg(sg.img,[0.847,0.894,0.737]) : null, edf: va&&va.sig ? await sigToJpeg(va.sig,[1,1,1]) : null};
+  fidaaPage(d,V,B,SG,dyn,va?'Validé le '+fmtD(va.date):'');
+  if(r.mode==='vehicule'){
+    d.add(); pHeader(d,'Accès véhicule','Autorisation d’accès d’un véhicule sur site — modèle provisoire','Réf. '+r.ref);
+    const v=r.vehicle||{}; pSection(d,'1. Véhicule'); FD.vehicleReq.forEach(([k,l])=>pRow(d,l,v[k]));
+    pSection(d,'2. Conducteur'); pRow(d,'Nom',`${r.emp.prenom} ${r.emp.nom}`); pRow(d,'Fonction',r.emp.fonction); pRow(d,'Entreprise',co.raison);
+    pSection(d,'3. Période et lieu'); pRow(d,'Du',fmtD(I.du)); pRow(d,'Au',fmtD(I.au)); pRow(d,'Site / lieu',[I.site,I.lieu].filter(Boolean).join(' — '));
+    pSection(d,'4. Visa de l’employeur'); pRow(d,'Signataire',sg?`${[sg.prenom,sg.nom].filter(Boolean).join(' ')} — ${sg.fonction}`:''); pRow(d,'Date',sg?fmtD(sg.date):''); pSig(d,im,sigCap);
+    if(va){ pSection(d,'5. Validation du chargé d’affaires'); pRow(d,'Validé par',`${va.prenom} ${va.nom} — ${va.service}`); pRow(d,'Date',fmtD(va.date)); }
+  }
+  const A=(data&&data.attachments)||[];
+  if(A.length){
+    d.add(); pHeader(d,'Pièces jointes',`${r.emp.prenom} ${r.emp.nom} — ${co.raison||''}`,'Réf. '+r.ref);
+    pSection(d,`${A.length} pièce${A.length>1?'s':''} jointe${A.length>1?'s':''}`); A.forEach(a=>pRow(d,DOCL[a.key]||a.key,a.name+(/pdf/i.test(a.type)?' (PDF, ouvrable dans l’app)':' (image, pages suivantes)')));
+    for(const a of A.filter(a=>/^image\/jpe?g/.test(a.type))){
+      const bin=atob(a.data), dim=await new Promise(res=>{ const im=new Image(); im.onload=()=>res([im.naturalWidth,im.naturalHeight]); im.onerror=()=>res(null); im.src='data:image/jpeg;base64,'+a.data; });
+      if(!dim) continue; d.add(); d.text(PM,PH-PM-10,DOCL[a.key]||a.key,11,true); d.text(PM,PH-PM-24,a.name,8.5,false,0.4);
+      const mw=CW, mh=PH-2*PM-60, sc=Math.min(mw/dim[0],mh/dim[1]), w=dim[0]*sc, hh=dim[1]*sc; d.img({bin,w:dim[0],h:dim[1]},PM+(mw-w)/2,PH-PM-36-hh,w,hh);
+    }
+  }
+  d.data=data||null; return d.build();
+}
+async function makeListPdf(title,sub,list,data){
+  const d=new Doc(); d.title=title; pHeader(d,title,sub,`${list.length} personne${list.length>1?'s':''}`);
+  const cols=[['Nom',125],['Société',115],['Accès',62],['Immat.',68],['Période',88],['Horaires',CW-458]];
+  const head=()=>{ d.ensure(20); let x=PM; d.fill(PM,d.y-18,CW,18,0.88); cols.forEach(([l,w])=>{ d.text(x+4,d.y-12.5,l,8.5,true); x+=w; }); d.y-=18; };
+  head();
+  list.forEach(e=>{ if(d.y-22<PM+28){ d.add(); head(); }
+    const vals=[`${e.nom} ${e.prenom}`,e.societe,e.mode==='vehicule'?'Piéton+véh.':'Piéton',e.immat||'—',`${fmtD(e.du).slice(0,5)} → ${fmtD(e.au).slice(0,5)}`,e.horaires||''];
+    let x=PM; cols.forEach(([,w],i)=>{ d.box(x,d.y-22,w,22); d.text(x+4,d.y-14.5,fit(vals[i],w-8,9,i===0),9,i===0); x+=w; }); d.y-=22; });
+  d.y-=14; d.ensure(30); d.text(PM,d.y,`Transmis par ${caName()} — ${S.ca?S.ca.site:''} — le ${now()}`,8.5,false,0.3);
+  d.y-=14; d.text(PM,d.y,'À importer dans l’app Accès Site (profil Poste de garde) pour pointer les entrées.',8.5,false,0.3);
+  d.data=data||null; return d.build();
+}
+
+/* ---------- ZIP (sans compression) ---------- */
+const CRC_T=(()=>{ const t=new Uint32Array(256); for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c=c&1?0xEDB88320^(c>>>1):c>>>1; t[n]=c>>>0; } return t; })();
+function crc32(u){ let c=0xFFFFFFFF; for(let i=0;i<u.length;i++) c=CRC_T[(c^u[i])&255]^(c>>>8); return (c^0xFFFFFFFF)>>>0; }
+function makeZip(entries){
+  const enc=new TextEncoder(), parts=[], cd=[]; let off=0; const d=new Date();
+  const t=(d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1), dd=((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate();
+  for(const e of entries){ const nm=enc.encode(e.name), crc=crc32(e.data), sz=e.data.length;
+    const L=new DataView(new ArrayBuffer(30)); [[0,0x04034b50,4],[4,20,2],[6,0x0800,2],[8,0,2],[10,t,2],[12,dd,2],[14,crc,4],[18,sz,4],[22,sz,4],[26,nm.length,2],[28,0,2]].forEach(([o,v,n])=>n===4?L.setUint32(o,v,true):L.setUint16(o,v,true));
+    parts.push(L.buffer,nm,e.data);
+    const C=new DataView(new ArrayBuffer(46)); [[0,0x02014b50,4],[4,20,2],[6,20,2],[8,0x0800,2],[10,0,2],[12,t,2],[14,dd,2],[16,crc,4],[20,sz,4],[24,sz,4],[28,nm.length,2],[30,0,2],[32,0,2],[34,0,2],[36,0,2],[38,0,4],[42,off,4]].forEach(([o,v,n])=>n===4?C.setUint32(o,v,true):C.setUint16(o,v,true));
+    cd.push(C.buffer,nm); off+=30+nm.length+sz; }
+  const cdSize=cd.reduce((a,b)=>a+b.byteLength,0), E=new DataView(new ArrayBuffer(22));
+  E.setUint32(0,0x06054b50,true); E.setUint16(8,entries.length,true); E.setUint16(10,entries.length,true); E.setUint32(12,cdSize,true); E.setUint32(16,off,true);
+  return new Blob([...parts,...cd,E.buffer],{type:'application/zip'});
+}
+const csv = rows => '﻿'+rows.map(r=>r.map(v=>{ v=String(v??''); return /[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(';')).join('\r\n');
+
+/* =====================================================================
+   Logique métier
+   ===================================================================== */
+const caName = () => S.ca ? `${S.ca.prenom} ${S.ca.nom}` : 'Chargé d’affaires';
+function nextRef(){ S.seq=(S.seq||0)+1; const p=(S.company?.raison||'ACC').normalize('NFD').replace(/[^A-Za-z ]/g,'').split(' ').filter(Boolean).map(w=>w[0]).join('').slice(0,3).toUpperCase()||'ACC';
+  const d=new Date(); return `${p}-${String(d.getFullYear()).slice(2)}${String(d.getMonth()+1).padStart(2,'0')}-${String(S.seq).padStart(4,'0')}`; }
+const pdfName = r => `${r.ref}_${safe(r.emp.nom)}_${safe(r.emp.prenom)}.pdf`;
+const pkgData = (r, orig) => ({type:'acces-site/dossier', v:2, id:r.id, ref:r.ref, createdAt:r.createdAt, company:r.company||S.company, emp:r.emp, intervention:r.intervention, mode:r.mode, vehicle:r.vehicle,
+  signature: r.signature ? {nom:r.signature.nom, prenom:r.signature.prenom||'', fonction:r.signature.fonction, date:r.signature.date, method:r.signature.method, img:r.signature.img||null} : null,
+  validation: r.validation ? Object.assign({},r.validation,{sig:null}) : null, empSig: r.empSig||null, original: orig||null});
+const entryFrom = d => ({id:d.id, ref:d.ref, nom:d.emp.nom, prenom:d.emp.prenom, fonction:d.emp.fonction, societe:d.company.raison, mode:d.mode,
+  immat:d.vehicle?d.vehicle.immat:'', marque:d.vehicle?d.vehicle.marque:'', typeV:d.vehicle?d.vehicle.type:'', du:d.intervention.du, au:d.intervention.au,
+  horaires:d.intervention.horaires||'', lieu:[d.intervention.site,d.intervention.lieu].filter(Boolean).join(' — '), objet:d.intervention.objet, caNom:d.intervention.caNom});
+const forDay = day => S.dossiers.filter(x=>x.status!=='refuse' && x.intervention.du<=day && x.intervention.au>=day);
+const todayPass = id => S.log.find(p=>p.entryId===id && p.date===todayISO());
+const inRange = e => { const T=todayISO(); return e.du<=T && e.au>=T; };
+
+async function importDossier(p, pdf){
+  const ex=S.dossiers.find(d=>d.id===p.id), pid='d-'+p.id;
+  if(pdf) await saveFile(pid,pdf,pdf.name);
+  let oid=ex?ex.origId:null;
+  if(p.original){ oid=pid+'-o'; await saveFile(oid,b64ToBlob(p.original.data,'application/pdf'),p.original.name); }
+  const atts=[]; for(const [i,a] of (p.attachments||[]).entries()){ const aid=pid+'-a'+i; await saveFile(aid,b64ToBlob(a.data,a.type),a.name); atts.push({id:aid,key:a.key,name:a.name,type:a.type}); }
+  if(ex && !atts.length) (ex.atts||[]).forEach(a=>atts.push(a));
+  const rec={id:p.id, ref:p.ref, company:p.company, emp:p.emp, intervention:p.intervention, mode:p.mode, vehicle:p.vehicle, signature:p.signature, empSig:p.empSig||null, atts,
+    pdfId:pdf?pid:(ex?ex.pdfId:null), origId:oid, receivedAt:nowISO(),
+    validation: ex && ex.status!=='refuse' ? ex.validation||null : null, validPdfId: ex && ex.status!=='refuse' ? ex.validPdfId||null : null,
+    status: ex && ex.status!=='refuse' ? ex.status : 'recu', motif: ex && ex.status!=='refuse' ? ex.motif : '',
+    history: ex ? [...ex.history,{t:now(),what:'Nouvel envoi reçu, dossier mis à jour'}] : [{t:now(),what:'Dossier reçu de '+p.company.raison}]};
+  if(ex) Object.assign(ex,rec); else S.dossiers.push(rec);
+}
+function upsertEntry(e){ const i=S.gate.findIndex(x=>x.id===e.id); e.receivedAt=nowISO(); if(i>=0) S.gate[i]=Object.assign(S.gate[i],e); else S.gate.push(e); }
+async function importFiles(files, role){
+  role=role||S.role; let ok=0, skip=0, note='';
+  for(const f of files){
+    let data=null; const isPdf=/pdf/i.test(f.type)||/\.pdf$/i.test(f.name);
+    try{ data = isPdf ? await extractData(f) : JSON.parse(await f.text()); }catch(e){ data=null; }
+    if(!data||!data.type){ skip++; continue; }
+    if(data.type==='acces-site/backup'){ note=' · sauvegarde : utilisez Réglages › Restaurer'; skip++; continue; }
+    if(role==='ca' && data.type==='acces-site/dossier'){ await importDossier(data, isPdf?f:null); ok++; }
+    else if(role==='garde' && data.type==='acces-site/liste'){ (data.entries||[]).forEach(upsertEntry); ok+=(data.entries||[]).length; }
+    else if(role==='garde' && data.type==='acces-site/dossier'){ upsertEntry(entryFrom(data)); ok++; }
+    else skip++;
+  }
+  await persist(); return {ok,skip,note};
+}
+async function purge(){
+  const days=+S.settings.retention; if(!days) return 0;
+  const lim=addDays(-days); let n=0;
+  for(const r of S.requests.filter(r=>r.intervention.au<lim)){ await delFile(r.pdfId); await delFile(r.origId); n++; }
+  for(const d of S.dossiers.filter(d=>d.intervention.au<lim)){ await delFile(d.pdfId); await delFile(d.origId); await delFile(d.validPdfId); for(const a of d.atts||[]) await delFile(a.id); n++; }
+  S.requests=S.requests.filter(r=>r.intervention.au>=lim); S.dossiers=S.dossiers.filter(d=>d.intervention.au>=lim);
+  const g=S.gate.length; S.gate=S.gate.filter(e=>e.au>=lim); n+=g-S.gate.length;
+  S.log=S.log.filter(p=>p.date>=lim);
+  if(n) await persist(); return n;
+}
+
+/* ---------- Données de démonstration ---------- */
+function seedDemo(){
+  S=defaultS();
+  const co=(raison,b13,adresse,cp,ville,dirNom,dirPrenom,dirFonction,email,tel)=>({raison,siret:withLuhn(b13),adresse,cp,ville,pays:'France',tel,email,dirNom,dirPrenom,dirFonction,dirTel:'06 00 00 00 10'});
+  const A=co('Électricité Martin SARL','4423190780001','12 rue des Artisans','57000','Metz','MARTIN','Claire','Gérante','contact@elec-martin.exemple','03 87 00 00 01');
+  const B=co('Échafaudages de l’Est','5117826450002','ZA du Pont','54000','Nancy','KLEIN','Hervé','Directeur','contact@echaf-est.exemple','03 83 00 00 02');
+  const C=co('Nettoyage Pro Lorraine','8034471200001','3 av. de la Gare','57100','Thionville','HADDAD','Nadia','Responsable d’agence','contact@npl.exemple','03 82 00 00 03');
+  const AG={raison:'Intérim Services Est (démo)',siret:withLuhn('9012345670001'),adresse:'8 place de la République',cp:'57000',ville:'Metz',pays:'France',tel:'03 87 00 00 09'};
+  const docs={identite:true,habTitre:true,apte:true};
+  const pe=(nom,prenom,naissance,lieu,fonction,o={})=>Object.assign({nom,prenom,naissance,lieuNaissance:lieu,nationalite:'Française',fonction,tel:'',email:'',adresse:'1 rue de l’Exemple',cp:'57000',ville:'Metz',pays:'France',dateEntree:'2019-09-02',interim:false,agence:{},hab:{aucune:true},docs:Object.assign({},docs)},o);
+  S.company=A;
+  S.employees=[
+    Object.assign(pe('DURAND','Paul','1984-03-12','Moselle (57)','Électricien',{tel:'06 00 00 00 01',hab:{b:'B1V',h:'H0V',e:'BR'}}),{id:uid(),veh:{}}),
+    Object.assign(pe('BENALI','Sofia','1991-07-02','Meurthe-et-Moselle (54)','Cheffe d’équipe',{tel:'06 00 00 00 02',hab:{b:'B2V',h:'H0',atex:'1',ct:true}}),{id:uid(),veh:{immat:'GH-482-KT',marque:'Renault Master',type:'Utilitaire',assurance:'POL-778812'}}),
+    Object.assign(pe('LOPEZ','Hugo','2004-09-21','Espagne','Électricien intérimaire',{nationalite:'Espagnole',interim:true,agence:AG,dateEntree:'2026-10-05',hab:{b:'B0',h:'H0'}}),{id:uid(),veh:{}})];
+  S.lastInter={site:'Centre de post-exploitation',lieu:'Bâtiment B',objet:'Maintenance des tableaux électriques',commande:'4500012345',horaires:'7h30 – 17h00',titulaire:TIT[0],tit:{},caNom:'Camille ROUSSEL',caEmail:'c.roussel@site-demo.exemple'};
+  S.caBook=[{nom:'Camille ROUSSEL',email:'c.roussel@site-demo.exemple'},{nom:'Romain BERTIN',email:'r.bertin@site-demo.exemple'}];
+  S.ca={prenom:'Camille',nom:'ROUSSEL',service:'Service maintenance (démo)',fonction:'Chargé d’affaires',tel:'03 87 00 00 50',email:'c.roussel@site-demo.exemple',site:'Centre de post-exploitation'};
+  S.garde={site:'Centre de post-exploitation',poste:'Poste principal'};
+  const iv=(objet,lieu,du,au,commande)=>({site:'Centre de post-exploitation',lieu,objet,commande,du:addDays(du),au:addDays(au),horaires:'7h30 – 17h00',titulaire:TIT[0],tit:{},caNom:'Camille ROUSSEL',caEmail:''});
+  const val=()=>({nom:S.ca.nom,prenom:S.ca.prenom,service:S.ca.service,fonction:S.ca.fonction,tel:S.ca.tel,email:S.ca.email,date:addDays(-1),h24:false,sig:null});
+  let n=100; const mk=(c,emp,inter,mode,vehicle,status)=>({id:uid(),ref:'DEMO-'+(++n),company:c,emp,intervention:inter,mode,vehicle,signature:{nom:c.dirNom,prenom:c.dirPrenom,fonction:c.dirFonction,date:addDays(-3),method:'app'},
+    pdfId:null,origId:null,validPdfId:null,validation:status==='recu'?null:val(),receivedAt:nowISO(),status,motif:'',history:[{t:'—',what:'Dossier reçu de '+c.raison}].concat(status!=='recu'?[{t:'—',what:'Dossier validé'}]:[]).concat(status==='transmis'?[{t:'—',what:'Transmis au poste de garde'}]:[])});
+  S.dossiers=[
+    mk(A,pe('MOREL','Julien','1987-02-02','Vosges (88)','Électricien',{hab:{b:'B1V',h:'H0V'}}),iv('Câblage armoire TGBT','Local technique 2',0,4,'4500012345'),'pieton',null,'transmis'),
+    mk(B,pe('KLEIN','Thomas','1979-11-23','Bas-Rhin (67)','Monteur échafaudage'),iv('Montage échafaudage façade nord','Zone nord',0,2,'4500020001'),'vehicule',{immat:'FR-127-ZB',marque:'Iveco Daily',type:'Poids lourd',assurance:'POL-120045',motif:'Livraison des éléments'},'transmis'),
+    mk(B,pe('PETIT','Lucas','1993-06-14','Meuse (55)','Monteur échafaudage'),iv('Montage échafaudage façade nord','Zone nord',1,2,'4500020001'),'pieton',null,'recu'),
+    mk(C,pe('ROSSI','Marco','1988-05-30','Italie','Agent d’entretien',{nationalite:'Italienne'}),iv('Nettoyage des bureaux','Bâtiment administratif',-5,20,'4500030077'),'pieton',null,'valide'),
+    mk(C,pe('LEFÈVRE','Julie','1995-01-17','Moselle (57)','Agent d’entretien'),iv('Nettoyage vitrerie','Bâtiment administratif',2,3,'4500030078'),'vehicule',{immat:'EK-905-LM',marque:'Citroën Berlingo',type:'Utilitaire',assurance:'POL-554310',motif:'Matériel de nettoyage'},'recu')];
+  S.dossiers.filter(d=>d.status==='transmis').forEach(d=>upsertEntry(entryFrom(d)));
+  S.log=[{id:uid(),entryId:S.dossiers[0].id,date:todayISO(),time:'07:38',decision:'ok',motif:'',nom:'MOREL',prenom:'Julien',societe:A.raison,immat:''}];
+  S.role='ent';
+}
+
+/* =====================================================================
+   Vues
+   ===================================================================== */
+function card({act,id,av,avc='',t,m,pills='',right='',sel}){
+  return `<button class="card${sel?' selected':''}" data-act="${act}" data-id="${h(id)}">${sel!==undefined?`<span class="ck">${sel?'✓':''}</span>`:`<div class="av ${avc}">${av}</div>`}<div class="body"><div class="t">${t}</div><div class="m">${m}</div>${pills?`<div class="pills">${pills}</div>`:''}</div>${right||'<span class="chev">›</span>'}</button>`;
+}
+function field(def,prefix=''){
+  const [k,label,req,type='text',opts,rr]=def, path=prefix?prefix+'.'+k:k, v=getPath(ui.form,path)??'', id='f_'+path.replace(/\./g,'_');
+  if(type==='check') return `<label class="chk"><input type="checkbox" id="${id}" data-f="${path}" ${v?'checked':''}${rr?' data-rr="1"':''}><span>${label}</span></label>`;
+  const inp = type==='select'
+    ? `<select id="${id}" data-f="${path}"${rr?' data-rr="1"':''}>${opts.map(o=>`<option ${o===v?'selected':''}>${h(o)}</option>`).join('')}</select>`
+    : `<input id="${id}" data-f="${path}" type="${type==='siret'?'text':type}" value="${h(v)}" autocomplete="off"${type==='siret'?' inputmode="numeric"':type==='tel'?' inputmode="tel"':''}${typeof opts==='function'?` list="dl_${id}"`:''}>`
+      + (typeof opts==='function'?`<datalist id="dl_${id}">${opts().map(o=>`<option value="${h(o)}">`).join('')}</datalist>`:'');
+  return `<label class="fld"><span>${label}${req?' *':''}</span>${inp}</label>`;
+}
+function validate(defs,prefix=''){
+  let ok=true, msg='Complétez les champs obligatoires';
+  defs.forEach(([k,,req,type])=>{ const path=prefix?prefix+'.'+k:k, v=String(getPath(ui.form,path)??'').trim(); let bad=req&&!v;
+    if(!bad&&v&&type==='siret'&&!siretOk(v)){ bad=true; msg='SIRET invalide (14 chiffres avec clé de contrôle)'; }
+    if(!bad&&v&&type==='email'&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){ bad=true; msg='Adresse e-mail invalide'; }
+    if(bad){ ok=false; const el=document.getElementById('f_'+path.replace(/\./g,'_')); el&&el.closest('.fld').classList.add('err'); } });
+  if(!ok) toast(msg); return ok;
+}
+const DOCL = Object.fromEntries(FD.docs.map(([k,l])=>[k,l]));
+const attRow = key => { const L=(ui.form.atts||[]).filter(a=>a.key===key);
+  return (L.length?`<ul class="atts">${L.map(a=>`<li>📎 <span>${h(a.name)}</span><small>${kb(a.size||0)}</small><button class="link" style="margin:0;padding:0 4px" data-act="att-del" data-id="${a.id}">✕</button></li>`).join('')}</ul>`:'')
+    + `<label class="attbtn">📎 Joindre un fichier<input type="file" accept="image/*,application/pdf,.pdf" data-att="${key}"></label>`; };
+/* Photo -> JPEG compressé (1600 px max) ; PDF gardé tel quel */
+function compressImg(file){ return new Promise(res=>{ const u=URL.createObjectURL(file), im=new Image();
+  im.onload=()=>{ const k=Math.min(1,1600/Math.max(im.width,im.height)), c=document.createElement('canvas'); c.width=Math.round(im.width*k); c.height=Math.round(im.height*k);
+    const x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0,c.width,c.height); URL.revokeObjectURL(u);
+    c.toBlob(b=>res(new File([b],file.name.replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg'})),'image/jpeg',0.8); };
+  im.onerror=()=>{ URL.revokeObjectURL(u); res(null); }; im.src=u; }); }
+async function attPayload(r){ const out=[]; for(const a of ((r.emp||{}).atts||[])){ const f=await getFile(a.id); if(f) out.push({key:a.key,name:a.name,type:a.type,data:await blobToB64(f)}); } return out; }
+async function pkgFull(r,orig){ const d=pkgData(r,orig); d.attachments=await attPayload(r); return d; }
+const importBtn = label => `<label class="btn sec2 filebtn">📥 ${label}<input type="file" id="importIn" multiple></label>`;
+const kvs = rows => `<dl class="kv">${rows.map(([a,b])=>`<dt>${a}</dt><dd>${b||'—'}</dd>`).join('')}</dl>`;
+const plateP = v => v ? `<div class="panel center"><span class="plate lg">${h(v.immat)}</span><div class="m" style="margin-top:8px">${h(v.marque)} · ${h(v.type)}</div></div>` : '';
+const installHint = () => S.hintDone ? '' : `<div class="hint"><span>📲</span><div><b>Installez l’app sur l’écran d’accueil</b> pour que vos données restent conservées.<br>iPhone : Partager → « Sur l’écran d’accueil ». Android : menu ⋮ → « Installer l’application ».</div><button class="link" style="margin:0" data-act="hint-off">✕</button></div>`;
+
+/* Accueil / choix du profil */
+function vOnboard(){
+  const done={ent:S.company,ca:S.ca,garde:S.garde};
+  const o=(r,ic,t,s)=>`<button class="opt" data-act="pick-role" data-id="${r}"><span class="big">${ic}</span><span><b>${t}</b>${done[r]?' <span class="pill green">déjà configuré</span>':''}<br><span class="m">${s}</span></span></button>`;
+  return `<div class="onb"><div class="logo">🛂</div><h2 class="center">Accès Site</h2><p class="sub center">Choisissez le profil de ce téléphone.<br>Les données restent sur l’appareil : aucun serveur.</p>
+  ${o('ent','🏢','Entreprise extérieure','Je crée les fiches de mes salariés et les demandes d’accès à faire signer.')}
+  ${o('ca','🦺','Chargé d’affaires','Je reçois, valide et classe les demandes, puis je prépare la liste du jour.')}
+  ${o('garde','🚧','Poste de garde','Je reçois la liste du jour et j’enregistre les entrées.')}
+  ${ui.prevRole&&done[ui.prevRole]?`<button class="link" data-act="pick-role" data-id="${ui.prevRole}">‹ Revenir au profil ${ROLE_L[ui.prevRole]}</button>`:''}
+  <button class="link" data-act="demo">Essayer avec des données de démonstration</button>
+  ${S.dossiers.length||S.requests.length?'':installHint()}</div>`;
+}
+function vLock(){
+  return `<div class="lockv"><div class="logo">🔒</div><h2>Accès Site</h2><p class="sub">Entrez votre code</p>
+  <input id="pinIn" class="search center" type="password" inputmode="numeric" autocomplete="off" maxlength="8"><button class="btn" data-act="unlock">Déverrouiller</button></div>`;
+}
+function vForm(v){
+  const K=FORMK[v.kind], P=(t,defs,prefix,sub)=>`<div class="panel"><h3>${t}</h3>${sub?`<p class="m" style="margin:-4px 0 10px">${sub}</p>`:''}${defs.map(d=>field(d,prefix)).join('')}</div>`;
+  let x=`<h2>${K.title(v)}</h2><p class="sub">${K.sub}</p>`;
+  if(v.kind==='employee'){
+    x+=P('Intervenant',FD.employee)+P('Adresse personnelle',FD.empAddr)+P('Situation',FD.empJob);
+    if(ui.form.interim) x+=P('Employeur : agence d’intérim',FD.agence,'agence','Votre société apparaîtra comme « entreprise utilisatrice » sur la FIDAA.');
+    x+=P('Habilitations',FD.hab,'hab','Cochées et précisées sur la FIDAA.')+`<div class="panel"><h3>Pièces jointes à la demande</h3><p class="m" style="margin:-4px 0 10px">Cochez les documents fournis. Vous pouvez joindre le fichier (photo ou PDF) : facultatif.</p>${FD.docs.map(d=>field(d,'docs')+(d[0]==='apte'?'':attRow(d[0]))).join('')}</div>`;
+    x+=`<div class="panel"><h3>Véhicule habituel (facultatif)</h3><p class="m" style="margin:-4px 0 10px">Pré-remplira l’autorisation d’accès véhicule.</p>${FD.vehicle.map(d=>field([d[0],d[1],0,d[3],d[4]],'veh')).join('')}</div>`;
+  } else x+=`<div class="panel">${FD[K.defs].map(d=>field(d)).join('')}</div>`;
+  x+=`<button class="btn" data-act="form-save">Enregistrer</button>`;
+  if(v.kind==='employee'&&v.id) x+=`<button class="btn ghost danger" data-act="emp-del">Supprimer ce salarié</button>`;
+  if(v.onboarding) x+=`<button class="link" data-act="back">Choisir un autre profil</button>`;
+  return x;
+}
+
+/* ----- Entreprise ----- */
+function vSalaries(){
+  const L=[...S.employees].sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+  return `${installHint()}<h2>Salariés</h2><p class="sub">Une fiche par salarié, réutilisée pour toutes les demandes.</p>
+  <button class="btn" data-act="emp-new">＋ Ajouter un salarié</button><div style="height:14px"></div>
+  ${L.map(e=>card({act:'emp-edit',id:e.id,av:ini(e.prenom,e.nom),t:`${h(e.prenom)} ${h(e.nom)}`,m:h(e.fonction),pills:e.veh&&e.veh.immat?`<span class="plate">${h(e.veh.immat)}</span>`:''})).join('')||empty('Aucun salarié pour l’instant')}`;
+}
+const reqCard = r => card({act:'open-req',id:r.id,av:ini(r.emp.prenom,r.emp.nom),t:`${h(r.emp.prenom)} ${h(r.emp.nom)}`,m:`${h(r.intervention.site)} · ${fmtD(r.intervention.du)} → ${fmtD(r.intervention.au)}`,
+  pills:pill(RS,r.status)+`<span class="pill">${modeL(r.mode)}</span>`+(r.vehicle?`<span class="plate">${h(r.vehicle.immat)}</span>`:'')});
+function vDemandes(){
+  const by=s=>S.requests.filter(r=>r.status===s).sort((a,b)=>a.intervention.du.localeCompare(b.intervention.du));
+  const A=by('a_signer'), B=by('signee'), C=by('envoyee').reverse();
+  return `<h2>Demandes d’accès</h2><button class="btn" data-act="wiz-new">＋ Nouvelle demande</button>
+  <h3 class="sec">À signer (${A.length})</h3>${A.length>1?`<button class="btn sec2" data-act="sign-all" style="margin:0 0 10px">✍️ Faire signer les ${A.length} demandes en une fois</button>`:''}${A.map(reqCard).join('')||empty('Rien à signer')}
+  <h3 class="sec">Signées — à envoyer (${B.length})</h3>${B.length>1?`<button class="btn sec2" data-act="send-all" style="margin:0 0 10px">📤 Envoyer les ${B.length} au chargé d’affaires</button>`:''}${B.map(reqCard).join('')||empty('—')}
+  <h3 class="sec">Envoyées (${C.length})</h3>${C.map(reqCard).join('')||empty('—')}`;
+}
+function vWizard(){
+  const W=ui.wiz, steps=['Salariés','Prestation','Mode d’accès','Récapitulatif'], s=W.step, ids=Object.keys(W.sel);
+  let x=`<div class="steps">${steps.map((_,j)=>`<i class="${j<=s?'on':''}"></i>`).join('')}</div><h2>${steps[s]}</h2>`;
+  if(s===0){
+    const L=[...S.employees].sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+    x+=`<p class="sub">Sélectionnez un ou plusieurs salariés : une demande sera créée pour chacun.</p>`
+      + L.map(e=>card({act:'wsel',id:e.id,sel:!!W.sel[e.id],t:`${h(e.prenom)} ${h(e.nom)}`,m:h(e.fonction),right:' '})).join('')
+      + `<button class="link" data-act="emp-new">＋ Créer une fiche salarié</button>`;
+  }
+  if(s===1) x+=`<p class="sub">Commun à tous les salariés sélectionnés. Reprend le cadre « Renseignements sur la prestation » de la FIDAA.</p><div class="panel">${FD.intervention.map(d=>field(d,'inter')).join('')}</div>`
+    + (W.inter.titulaire===TIT[1] ? `<div class="panel"><h3>Société titulaire de la commande</h3>${FD.tit.map(d=>field(d,'inter.tit')).join('')}</div>` : '');
+  if(s===2){
+    x+=`<div class="hint info">ℹ️ Piéton : FIDAA seule. Piéton + véhicule : FIDAA + autorisation d’accès véhicule.</div>`;
+    ids.forEach(id=>{ const e=S.employees.find(z=>z.id===id), c=W.sel[id];
+      x+=`<div class="panel"><b>${h(e.prenom)} ${h(e.nom)}</b><div class="seg"><button class="${c.mode==='pieton'?'on':''}" data-act="wmode" data-id="${id}" data-m="pieton">🚶 Piéton</button><button class="${c.mode==='vehicule'?'on':''}" data-act="wmode" data-id="${id}" data-m="vehicule">🚶🚐 Piéton + véhicule</button></div>
+        ${c.mode==='vehicule'?FD.vehicleReq.map(d=>field(d,'sel.'+id+'.veh')).join(''):''}</div>`; });
+  }
+  if(s===3){
+    const I=W.inter, nv=ids.filter(i=>W.sel[i].mode==='vehicule').length;
+    x+=`<div class="panel"><h3>Prestation</h3>${kvs([['Prestation',h(I.objet)],['N° de commande',h(I.commande)],['Période',`${fmtD(I.du)} → ${fmtD(I.au)}`],['Titulaire',h(I.titulaire===TIT[1]?(I.tit||{}).raison:S.company.raison)],['Site',h(I.site)]])}</div>
+      <div class="panel"><h3>${ids.length} demande${ids.length>1?'s':''} · ${ids.length+nv} document${ids.length+nv>1?'s':''}</h3><ul class="docs">${ids.map(id=>{ const e=S.employees.find(z=>z.id===id), c=W.sel[id];
+        return `<li class="ok">${h(e.prenom)} ${h(e.nom)} — ${c.mode==='vehicule'?'FIDAA + accès véhicule ('+h(c.veh.immat)+')':'FIDAA'}</li>`; }).join('')}</ul></div>`;
+  }
+  x+=`<div class="row2">${s>0?`<button class="btn ghost" data-act="wiz-prev">Retour</button>`:''}${s<3?`<button class="btn" data-act="wiz-next">Continuer</button>`:`<button class="btn" data-act="wiz-create">Créer ${ids.length>1?'les demandes':'la demande'}</button>`}</div>`;
+  return x;
+}
+function vReq(v){
+  const r=S.requests.find(z=>z.id===v.id); if(!r) return empty('Demande introuvable');
+  const I=r.intervention; let a='';
+  if(r.status==='a_signer') a=`<div class="hint">✍️ À faire signer par le dirigeant ou un responsable de la société.</div>
+    <button class="btn ghost" data-act="emp-sign">${r.empSig?'✅ Visa du salarié signé — refaire':'✍️ Faire signer le salarié (visa intervenant, facultatif)'}</button>
+    <button class="btn" data-act="sign-one">Signer dans l’app (employeur)</button>
+    <button class="btn sec2" data-act="req-export">📄 Exporter le PDF à imprimer et signer</button>
+    <label class="btn ghost filebtn">📎 Importer le PDF signé (scan)<input type="file" id="signedIn" accept="application/pdf,.pdf"></label>`;
+  if(r.status==='signee') a=`<div class="hint ok">✅ Signée par ${h(r.signature.nom)} le ${fmtD(r.signature.date)}${r.signature.method==='pdf'?' (original scanné)':''}.</div>
+    <button class="btn" data-act="req-send">📤 Envoyer au chargé d’affaires</button><button class="btn sec2" data-act="req-view">Voir le PDF</button>`;
+  if(r.status==='envoyee') a=`<div class="hint ok">📤 Envoyée le ${fmtD(r.sentAt)}.</div><button class="btn sec2" data-act="req-view">Voir le PDF</button><button class="btn ghost" data-act="req-send">Renvoyer</button>`;
+  return `<div class="hero"><div class="av lg">${ini(r.emp.prenom,r.emp.nom)}</div><div><div class="t">${h(r.emp.prenom)} ${h(r.emp.nom)}</div><div class="m">${h(r.emp.fonction)} · Réf. ${h(r.ref)}</div><div class="pills">${pill(RS,r.status)}<span class="pill">${modeL(r.mode)}</span></div></div></div>
+  ${plateP(r.vehicle)}${a}
+  <div class="panel" style="margin-top:12px"><h3>Documents</h3><ul class="docs"><li class="${r.signature?'ok':'wait'}">FIDAA</li>${r.mode==='vehicule'?`<li class="${r.signature?'ok':'wait'}">Autorisation d’accès véhicule</li>`:'<li class="na">Accès véhicule — non requis (piéton)</li>'}${r.origId?'<li class="ok">Original signé (scan) joint</li>':''}</ul></div>
+  <div class="panel"><h3>Prestation</h3>${kvs([['Prestation',h(I.objet)],['N° de commande',h(I.commande)],['Période',`${fmtD(I.du)} → ${fmtD(I.au)}`],['Horaires',h(I.horaires)],['Site',h([I.site,I.lieu].filter(Boolean).join(' — '))],['Chargé d’affaires',h(I.caNom)]])}</div>
+  <button class="btn ghost danger" data-act="req-del">Supprimer la demande</button>`;
+}
+function vSign(v){
+  const L=v.ids.map(id=>S.requests.find(r=>r.id===id)).filter(Boolean);
+  return `<h2>Signature de l’employeur</h2><p class="sub">${L.length} document${L.length>1?'s':''} : ${L.map(r=>h(r.emp.prenom+' '+r.emp.nom)).join(', ')}</p>
+  <div class="panel">${FD.signer.map(d=>field(d)).join('')}<span class="lbl">Signature *</span><canvas id="sig" class="sig"></canvas>
+  <div style="text-align:right"><button class="link" style="display:inline;margin:0" data-act="clear-sig">Effacer</button></div>
+  <label class="chk"><input type="checkbox" data-f="atteste" ${ui.form.atteste?'checked':''}><span>En tant que dirigeant ou responsable de la société, j’atteste l’exactitude de ces informations et j’autorise ${L.length>1?'ces salariés':'ce salarié'} à intervenir sur le site.</span></label></div>
+  <button class="btn" data-act="sign-do">Signer ${L.length>1?'les '+L.length+' documents':'le document'}</button>`;
+}
+function vEntSettings(){
+  const c=S.company||{};
+  return `<h2>${h(c.raison)}</h2><div class="panel"><h3>Société</h3>${kvs([['SIRET',h(c.siret)],['Adresse',`${h(c.adresse)}<br>${h(c.cp)} ${h(c.ville)}<br>${h(c.pays)}`],['Contact',[h(c.tel),h(c.email)].filter(Boolean).join('<br>')],['Représentant',`${h(c.dirPrenom)} ${h(c.dirNom)}<br><span class="m">${h(c.dirFonction)}</span>`]])}
+  <button class="btn sec2" data-act="edit-profile">Modifier</button></div>${settingsBlock()}`;
+}
+
+/* ----- Chargé d’affaires ----- */
+const dCard = d => card({act:'open-dossier',id:d.id,av:ini(d.emp.prenom,d.emp.nom),t:`${h(d.emp.prenom)} ${h(d.emp.nom)}`,m:`${h(d.company.raison)} · ${fmtD(d.intervention.du)} → ${fmtD(d.intervention.au)}`,
+  pills:pill(DS,d.status)+`<span class="pill">${modeL(d.mode)}</span>`+(d.vehicle?`<span class="plate">${h(d.vehicle.immat)}</span>`:'')+(d.signature?'':'<span class="pill red">Non signé</span>')});
+function vPlanning(){
+  const days=[...Array(21)].map((_,i)=>addDays(i-2)); if(!days.includes(ui.day)) ui.day=todayISO();
+  const L=forDay(ui.day).sort((a,b)=>a.emp.nom.localeCompare(b.emp.nom,'fr')), R=L.filter(d=>d.status==='recu'), V=L.filter(d=>d.status!=='recu');
+  const strip=days.map(d=>`<button class="day ${d===ui.day?'on':''}" data-act="day" data-id="${d}"><small>${d===todayISO()?'auj.':new Date(d+'T12:00').toLocaleDateString('fr-FR',{weekday:'short'}).replace('.','')}</small><b>${+d.slice(8)}</b><i class="${forDay(d).length?'':'z'}"></i></button>`).join('');
+  return `${importBtn('Importer un dossier reçu')}<div class="datestrip" id="strip">${strip}</div>
+  <h2 style="text-transform:capitalize;margin-bottom:4px">${longDate(ui.day)}</h2><p class="sub" style="margin:0 0 4px">${L.length} personne${L.length>1?'s':''} attendue${L.length>1?'s':''}</p>
+  <h3 class="sec">À valider (${R.length})</h3>${R.map(dCard).join('')||empty('Rien à valider')}
+  <h3 class="sec">Validés (${V.length})</h3>${V.map(dCard).join('')||empty('—')}
+  ${V.length?`<button class="btn" data-act="send-day">🚧 Envoyer la liste du jour au poste de garde (${V.length})</button>`:''}`;
+}
+function dossierResults(){
+  const q=ui.q.trim().toLowerCase();
+  if(q){ const L=S.dossiers.filter(d=>[d.emp.nom,d.emp.prenom,d.company.raison,d.vehicle&&d.vehicle.immat,d.ref].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.intervention.du.localeCompare(a.intervention.du));
+    return `<h3 class="sec">Résultats (${L.length})</h3>${L.map(dCard).join('')||empty('Aucun dossier trouvé')}`; }
+  const cos=[...new Set(S.dossiers.map(d=>d.company.raison))].sort((a,b)=>a.localeCompare(b,'fr'));
+  return `<h3 class="sec">Sociétés (${cos.length})</h3>`+(cos.map(c=>{ const L=S.dossiers.filter(d=>d.company.raison===c), p=L.filter(d=>d.status==='recu').length;
+    return card({act:'open-company',id:c,av:'📁',t:h(c),m:`${L.length} dossier${L.length>1?'s':''}${p?` · <b style="color:var(--warn)">${p} à valider</b>`:''}`}); }).join('')||empty('Aucun dossier. Importez les fichiers reçus des entreprises.'));
+}
+function vDossiers(){
+  return `<h2>Dossiers</h2><p class="sub">Classés automatiquement par société, puis par date d’autorisation.</p>
+  <input id="q" class="search" type="search" placeholder="Nom, société, immatriculation, réf…" value="${h(ui.q)}" autocomplete="off"><div id="results">${dossierResults()}</div>
+  ${S.dossiers.length?`<button class="btn ghost" data-act="zip">🗜️ Exporter tous les dossiers (ZIP)</button>`:''}`;
+}
+function vCompany(v){
+  const L=S.dossiers.filter(d=>d.company.raison===v.id).sort((a,b)=>a.intervention.du.localeCompare(b.intervention.du)); let x=`<h2>${h(v.id)}</h2><p class="sub">${L.length} dossier${L.length>1?'s':''}, du plus ancien au plus récent</p>`, last='';
+  L.forEach(d=>{ const m=new Date(d.intervention.du+'T12:00').toLocaleDateString('fr-FR',{month:'long',year:'numeric'}); if(m!==last){ x+=`<h3 class="sec">${m}</h3>`; last=m; } x+=dCard(d); });
+  return x;
+}
+function vDossier(v){
+  const d=S.dossiers.find(z=>z.id===v.id); if(!d) return empty('Dossier introuvable');
+  const I=d.intervention, c=d.company; let a='';
+  if(d.status==='recu') a=`<div class="row2"><button class="btn bad" data-act="ca-refuse">Refuser</button><button class="btn ok" data-act="ca-validate">Valider</button></div>`;
+  const vdoc = d.validation ? `<li class="ok">FIDAA validée par ${h(d.validation.prenom)} ${h(d.validation.nom)} le ${fmtD(d.validation.date)}${d.validation.h24?' · profil 24h/24':''}</li>` : '';
+  if(d.status==='valide') a=`<button class="btn" data-act="send-one" style="margin-bottom:12px">🚧 Envoyer au poste de garde</button>`;
+  if(d.status==='transmis') a=`<div class="hint ok">🚧 Transmis au poste de garde${d.transmittedAt?' le '+fmtD(d.transmittedAt):''}.</div>`;
+  if(d.status==='refuse') a=`<div class="hint bad">⛔ Refusé : ${h(d.motif)}</div>`;
+  const mail=c.email?`mailto:${encodeURIComponent(c.email)}?subject=${encodeURIComponent('Demande d’accès '+d.ref+' — '+d.emp.prenom+' '+d.emp.nom)}&body=${encodeURIComponent(`Bonjour,\n\nVotre demande d’accès ${d.ref} pour ${d.emp.prenom} ${d.emp.nom} (${fmtD(I.du)} → ${fmtD(I.au)}) est : ${DS[d.status].l.toLowerCase()}${d.status==='refuse'?' — motif : '+d.motif:''}.\n\nCordialement,\n${caName()}`)}`:'';
+  return `<div class="hero"><div class="av lg">${ini(d.emp.prenom,d.emp.nom)}</div><div><div class="t">${h(d.emp.prenom)} ${h(d.emp.nom)}</div><div class="m">${h(d.emp.fonction)} · ${h(c.raison)}</div><div class="pills">${pill(DS,d.status)}<span class="pill">${modeL(d.mode)}</span></div></div></div>
+  ${d.signature?'':'<div class="hint bad">⚠️ Document non signé par l’employeur.</div>'}${plateP(d.vehicle)}${a}
+  <div class="panel"><h3>Documents</h3><ul class="docs"><li class="${d.signature?'ok':'wait'}">FIDAA${d.signature?` — signée par ${h(d.signature.nom)} le ${fmtD(d.signature.date)}`:''}</li>${d.mode==='vehicule'?'<li class="ok">Autorisation d’accès véhicule</li>':'<li class="na">Accès véhicule — non requis (piéton)</li>'}${d.origId?'<li class="ok">Original signé (scan)</li>':''}${vdoc}</ul>
+  ${d.validation?'<button class="btn" data-act="d-valid">📄 FIDAA validée (voir / partager)</button>':''}${(d.atts||[]).length?`<h3 style="margin-top:14px">Pièces jointes (${d.atts.length})</h3>${d.atts.map(a=>`<button class="btn ghost" data-act="d-att" data-id="${h(a.id)}">📎 ${h(DOCL[a.key]||a.key)} — ${h(a.name)}</button>`).join('')}`:''}<button class="btn sec2" data-act="d-pdf">Voir la FIDAA reçue</button>${d.origId?'<button class="btn ghost" data-act="d-orig">Voir l’original signé</button>':''}</div>
+  <div class="panel"><h3>Prestation</h3>${kvs([['Prestation',h(I.objet)],['N° de commande',h(I.commande)],['Période',`${fmtD(I.du)} → ${fmtD(I.au)}`],['Horaires',h(I.horaires)],['Site',h([I.site,I.lieu].filter(Boolean).join(' — '))]])}</div>
+  <div class="panel"><h3>Entreprise</h3>${kvs([['Raison sociale',h(c.raison)],['SIRET',h(c.siret)+(siretOk(c.siret)?'':' ⚠️')],['Adresse',`${h(c.adresse)}, ${h(c.cp)} ${h(c.ville)}`],['Contact',[h(c.tel),h(c.email)].filter(Boolean).join('<br>')]])}
+  ${mail?`<a class="btn ghost" href="${mail}">✉️ Informer l’entreprise par e-mail</a>`:''}</div>
+  <div class="panel"><h3>Historique</h3><div class="tl">${d.history.map(x=>`<div><b>${h(x.t)}</b> · ${h(x.what)}</div>`).join('')}</div></div>
+  <button class="btn ghost danger" data-act="d-del">Supprimer le dossier</button>`;
+}
+function vCaSettings(){
+  const c=S.ca||{};
+  return `<h2>Réglages</h2><div class="panel"><h3>Mon profil</h3>${kvs([['Nom',h(caName())],['Service',h(c.service)],['Fonction',h(c.fonction)],['Téléphone',h(c.tel)],['E-mail',h(c.email)],['Site',h(c.site)]])}<button class="btn sec2" data-act="edit-profile">Modifier</button></div>
+  <div class="panel"><h3>Ma signature</h3><p class="m" style="margin:0 0 4px">${c.sig?'✅ Enregistrée : apposée sur les FIDAA que vous validez.':'Aucune signature : les FIDAA validées portent seulement la mention « Validé le … ».'}</p><button class="btn sec2" data-act="ca-sig">${c.sig?'Modifier ma signature':'Enregistrer ma signature'}</button></div>${settingsBlock()}`;
+}
+
+function vEmpSig(v){
+  const r=S.requests.find(z=>z.id===v.id); if(!r) return empty('Demande introuvable');
+  return `<h2>Visa du salarié</h2><p class="sub">${h(r.emp.prenom)} ${h(r.emp.nom)} signe le cadre « Visa intervenant » de la FIDAA. Facultatif.</p>
+  <div class="panel"><canvas id="sig" class="sig"></canvas><div style="text-align:right"><button class="link" style="display:inline;margin:0" data-act="clear-sig">Effacer</button></div></div>
+  <button class="btn" data-act="empsig-save">Enregistrer le visa</button>`;
+}
+function vCaSig(){
+  return `<h2>Ma signature</h2><p class="sub">Apposée dans le cadre « Validation » des FIDAA que vous validez. Elle reste sur ce téléphone.</p>
+  <div class="panel"><canvas id="sig" class="sig"></canvas><div style="text-align:right"><button class="link" style="display:inline;margin:0" data-act="clear-sig">Effacer</button></div></div>
+  <button class="btn" data-act="ca-sig-save">Enregistrer</button>${S.ca&&S.ca.sig?'<button class="btn ghost danger" data-act="ca-sig-del">Supprimer ma signature</button>':''}`;
+}
+const validName = d => `FIDAA-VALIDEE_${d.ref}_${safe(d.emp.nom)}_${safe(d.emp.prenom)}.pdf`;
+async function makeValidPdf(d){
+  const blob=await makeRequestPdf(d, pkgData(d));
+  await saveFile('v-'+d.id, fileOf(blob,validName(d)), validName(d)); d.validPdfId='v-'+d.id;
+}
+
+/* ----- Poste de garde ----- */
+const eCard = e => { const p=todayPass(e.id);
+  return card({act:'open-entry',id:e.id,av:ini(e.prenom,e.nom),avc:p?(p.decision==='ok'?'g':'r'):'',t:`${h(e.prenom)} ${h(e.nom)}`,m:`${h(e.societe)} · ${fmtD(e.du)} → ${fmtD(e.au)}${e.caNom?' · '+h(e.caNom):''}`,
+    pills:(p?(p.decision==='ok'?`<span class="pill green">Entré à ${h(p.time)}</span>`:`<span class="pill red">Refusé à ${h(p.time)}</span>`):'')+`<span class="pill">${modeL(e.mode)}</span>`+(e.immat?`<span class="plate">${h(e.immat)}</span>`:'')}); };
+function todayResults(){
+  const q=ui.q.trim().toLowerCase(); let L=S.gate.filter(inRange).sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+  if(q) L=L.filter(e=>[e.nom,e.prenom,e.societe,e.immat].join(' ').toLowerCase().includes(q));
+  const P=L.filter(e=>!todayPass(e.id)), D=L.filter(e=>todayPass(e.id));
+  return `<h3 class="sec">À contrôler (${P.length})</h3>${P.map(eCard).join('')||empty('Personne en attente')}<h3 class="sec">Contrôlés aujourd’hui (${D.length})</h3>${D.map(eCard).join('')||empty('—')}`;
+}
+function vToday(){
+  return `${importBtn('Importer la liste du jour')}<h2 style="text-transform:capitalize;margin-top:16px">${longDate(todayISO())}</h2>
+  <input id="q" class="search" type="search" placeholder="Nom, société ou immatriculation…" value="${h(ui.q)}" autocomplete="off"><div id="results">${todayResults()}</div>`;
+}
+function vEntry(v){
+  const e=S.gate.find(z=>z.id===v.id); if(!e) return empty('Introuvable');
+  const p=todayPass(e.id), hist=S.log.filter(x=>x.entryId===e.id).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+  let a = p ? `<div class="hint ${p.decision==='ok'?'ok':'bad'}">${p.decision==='ok'?'✅ Entrée autorisée aujourd’hui à '+h(p.time):'⛔ Entrée refusée aujourd’hui à '+h(p.time)+' — '+h(p.motif)}</div>`
+    : inRange(e) ? `<div class="row2"><button class="btn bad" data-act="g-refuse">Refuser l’entrée</button><button class="btn ok" data-act="g-grant">Autoriser l’entrée</button></div>`
+    : `<div class="hint bad">Hors de la période autorisée (${fmtD(e.du)} → ${fmtD(e.au)})</div>`;
+  return `<div class="hero"><div class="av lg">${ini(e.prenom,e.nom)}</div><div><div class="t">${h(e.prenom)} ${h(e.nom)}</div><div class="m">${h(e.fonction)} · ${h(e.societe)}</div><div class="pills"><span class="pill">${modeL(e.mode)}</span></div></div></div>
+  ${e.immat?`<div class="panel center"><span class="plate lg">${h(e.immat)}</span><div class="m" style="margin-top:8px">${h(e.marque)} · ${h(e.typeV)}</div></div>`:''}${a}
+  <div class="panel"><h3>Autorisation</h3>${kvs([['Période',`${fmtD(e.du)} → ${fmtD(e.au)}`],['Horaires',h(e.horaires)],['Lieu',h(e.lieu)],['Objet',h(e.objet)],['Chargé d’affaires',h(e.caNom)],['Réf.',h(e.ref)]])}</div>
+  <div class="panel"><h3>Passages</h3><div class="tl">${hist.map(x=>`<div><b>${fmtD(x.date)} ${h(x.time)}</b> · ${x.decision==='ok'?'Entrée autorisée':'Refusée — '+h(x.motif)}</div>`).join('')||'<div class="m">Aucun passage</div>'}</div></div>`;
+}
+function vRegistre(){
+  const L=[...S.log].sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)); let x=`<h2>Registre des passages</h2>`, last='';
+  L.forEach(p=>{ if(p.date!==last){ x+=`<h3 class="sec">${longDate(p.date)}</h3>`; last=p.date; }
+    x+=card({act:'open-entry',id:p.entryId,av:p.decision==='ok'?'✓':'✕',avc:p.decision==='ok'?'g':'r',t:`${h(p.prenom)} ${h(p.nom)}`,m:`${h(p.time)} · ${h(p.societe)}${p.motif?' · '+h(p.motif):''}`,right:p.immat?`<span class="plate">${h(p.immat)}</span>`:' '}); });
+  return x + (L.length?`<button class="btn ghost" data-act="csv-log">📊 Exporter le registre (tableur)</button>`:empty('Aucun passage enregistré'));
+}
+function vGardeSettings(){
+  return `<h2>Réglages</h2><div class="panel"><h3>Poste de garde</h3>${kvs([['Site',h(S.garde&&S.garde.site)],['Poste',h(S.garde&&S.garde.poste)]])}<button class="btn sec2" data-act="edit-profile">Modifier</button></div>${settingsBlock()}`;
+}
+
+/* ----- Réglages communs ----- */
+function settingsBlock(){
+  setTimeout(storeInfo,0);
+  return `<div class="panel"><h3>Profil de ce téléphone</h3><p class="m" style="margin:0 0 4px">Utilisé comme <b>${ROLE_L[S.role]}</b>. Vous pouvez changer à tout moment : les informations de chaque profil sont conservées.</p><button class="btn sec2" data-act="switch-role">⇄ Changer de profil</button></div>
+  <div class="panel"><h3>Sécurité</h3><p class="m" style="margin:0 0 4px">${S.settings.pinHash?'🔒 Un code protège l’ouverture de l’app.':'Aucun code de verrouillage.'}</p>
+    <button class="btn sec2" data-act="pin-set">${S.settings.pinHash?'Changer le code':'Définir un code'}</button>${S.settings.pinHash?'<button class="btn ghost" data-act="pin-del">Supprimer le code</button>':''}</div>
+  <div class="panel"><h3>Données sur ce téléphone</h3>
+    <label class="fld"><span>Effacement automatique après la fin de l’autorisation</span><select id="retSel">${[[30,'30 jours'],[90,'90 jours'],[180,'6 mois'],[365,'1 an'],[0,'Jamais']].map(([v,l])=>`<option value="${v}" ${+S.settings.retention===v?'selected':''}>${l}</option>`).join('')}</select></label>
+    <div class="m" id="storeInfo">${ui.storeInfo}</div>
+    <button class="btn sec2" data-act="backup">💾 Exporter une sauvegarde</button>
+    <label class="btn ghost filebtn">♻️ Restaurer une sauvegarde<input type="file" id="restoreIn"></label></div>
+  <div class="panel"><h3>Tout effacer</h3><button class="btn ghost danger" data-act="wipe">Effacer toutes les données de ce téléphone</button></div>`;
+}
+async function storeInfo(){
+  try{ const p=navigator.storage&&navigator.storage.persisted?await navigator.storage.persisted():false; const e=navigator.storage&&navigator.storage.estimate?await navigator.storage.estimate():null;
+    ui.storeInfo=`${Store.db?'Stockage local actif':'⚠️ Stockage indisponible (données non conservées)'}${e?' · '+kb(e.usage||0)+' utilisés':''}${Store.db?(p?' · protégé contre l’effacement':' · non protégé : installez l’app sur l’écran d’accueil'):''}`;
+    const el=$('#storeInfo'); if(el) el.textContent=ui.storeInfo; }catch(e){}
+}
+
+/* ---------- Fenêtres ---------- */
+const modal = html => { const m=$('#modal'); m.innerHTML=html; m.classList.remove('hidden'); };
+function closeModal(){ const m=$('#modal'); m.classList.add('hidden'); m.innerHTML=''; if(ui.pdf){ URL.revokeObjectURL(ui.pdf.url); ui.pdf=null; } }
+let tt; function toast(t){ const e=$('#toast'); e.textContent=t; e.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>e.classList.remove('on'),2600); }
+function openShare(o){
+  ui.share=o;
+  modal(`<div class="box"><div class="scroll"><h2>${h(o.title)}</h2><p class="sub">Choisissez comment l’envoyer : Mail, Teams, WhatsApp, AirDrop…</p>
+  <ul class="files">${o.files.map(f=>`<li>📎 ${h(f.name)} <span class="m">· ${kb(f.size)}</span></li>`).join('')}</ul>
+  <button class="btn" data-act="do-share">Partager / envoyer</button><button class="btn ghost" data-act="do-download">Enregistrer sur l’appareil</button>
+  ${o.simRole?`<button class="link" data-act="do-sim">Simuler la réception (${ROLE_L[o.simRole]}, démo)</button>`:''}<button class="link" data-act="close">Annuler</button></div></div>`);
+}
+function openPdf(blob,name){
+  const url=URL.createObjectURL(blob); ui.pdf={blob,name,url};
+  modal(`<div class="box"><div class="bar"><b style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px">${h(name)}</b><button class="btn" data-act="pdf-open">Ouvrir</button><button class="btn ghost" data-act="close">Fermer</button></div>
+  <iframe class="pdfv" src="${url}" title="Aperçu PDF"></iframe><div style="padding:0 12px 12px"><button class="btn sec2" data-act="pdf-share">Partager / enregistrer</button></div></div>`);
+}
+function askReason(title,cb){
+  modal(`<div class="box"><div class="scroll"><h2>${title}</h2><label class="fld"><textarea id="reason" rows="3" placeholder="Motif (obligatoire)"></textarea></label>
+  <div class="row2"><button class="btn ghost" data-act="close">Annuler</button><button class="btn bad" id="reasonOk">Confirmer</button></div></div></div>`);
+  $('#reasonOk').onclick=()=>{ const r=$('#reason').value.trim(); if(!r) return toast('Indiquez un motif'); closeModal(); cb(r); };
+}
+function askConfirm(title,text,ok,cb){
+  modal(`<div class="box"><div class="scroll"><h2>${title}</h2><p class="sub">${text}</p><div class="row2"><button class="btn ghost" data-act="close">Annuler</button><button class="btn bad" id="confOk">${ok}</button></div></div></div>`);
+  $('#confOk').onclick=()=>{ closeModal(); cb(); };
+}
+
+/* ---------- Signature tactile ---------- */
+function initSig(){
+  const c=$('#sig'); if(!c) return;
+  const r=c.getBoundingClientRect(), dpr=Math.min(window.devicePixelRatio||1,2);
+  c.width=r.width*dpr; c.height=r.height*dpr;
+  const x=c.getContext('2d'); x.scale(dpr,dpr); x.lineWidth=2.4; x.lineCap='round'; x.lineJoin='round'; x.strokeStyle='#0b1f33';
+  if(ui.sigImg){ const im=new Image(); im.onload=()=>x.drawImage(im,0,0,r.width,r.height); im.src=ui.sigImg; }
+  let on=false; const pt=e=>{ const b=c.getBoundingClientRect(); return [e.clientX-b.left,e.clientY-b.top]; };
+  c.onpointerdown=e=>{ on=true; try{ c.setPointerCapture(e.pointerId); }catch(_){} x.beginPath(); x.moveTo(...pt(e)); };
+  c.onpointermove=e=>{ if(!on) return; x.lineTo(...pt(e)); x.stroke(); };
+  c.onpointerup=c.onpointercancel=()=>{ if(!on) return; on=false; ui.sigImg=c.toDataURL('image/png'); };
+}
+
+/* =====================================================================
+   Navigation & rendu
+   ===================================================================== */
+const SCREENS={'ent:salaries':vSalaries,'ent:demandes':vDemandes,'ent:reglages':vEntSettings,'ca:planning':vPlanning,'ca:dossiers':vDossiers,'ca:reglages':vCaSettings,'garde:today':vToday,'garde:registre':vRegistre,'garde:reglages':vGardeSettings};
+const VIEWS={form:vForm,wizard:vWizard,req:vReq,sign:vSign,dossier:vDossier,company:vCompany,entry:vEntry,casig:vCaSig,empsig:vEmpSig};
+const RESULTS={ca:dossierResults,garde:todayResults};
+function viewTitle(v){
+  if(v.type==='form') return FORMK[v.kind].title(v);
+  if(v.type==='wizard') return 'Nouvelle demande';
+  if(v.type==='sign') return 'Signature';
+  if(v.type==='casig') return 'Ma signature';
+  if(v.type==='empsig') return 'Visa du salarié';
+  if(v.type==='req'){ const r=S.requests.find(z=>z.id===v.id); return r?'Demande '+r.ref:'Demande'; }
+  if(v.type==='dossier'){ const d=S.dossiers.find(z=>z.id===v.id); return d?'Dossier '+d.ref:'Dossier'; }
+  if(v.type==='company') return v.id;
+  if(v.type==='entry') return 'Contrôle d’accès';
+  return 'Accès Site';
+}
+function badge(k){
+  let n=0;
+  if(k==='demandes') n=S.requests.filter(r=>r.status!=='envoyee').length;
+  if(k==='planning') n=S.dossiers.filter(d=>d.status==='recu').length;
+  if(k==='today') n=S.gate.filter(e=>inRange(e)&&!todayPass(e.id)).length;
+  return n?`<span class="nb">${n}</span>`:'';
+}
+function render(){
+  const v=ui.view, role=S.role, onb=!role&&!v, inForm=v&&v.onboarding;
+  const noTabs = !!(ui.locked || onb || inForm);
+  $('#title').textContent = ui.locked||onb ? 'Accès Site' : v ? viewTitle(v) : (role==='ent'&&S.company ? S.company.raison : role==='ca'&&S.ca ? S.ca.site : role==='garde'&&S.garde ? S.garde.site : ROLE_L[role]);
+  $('#back').classList.toggle('hidden', ui.locked || !v);
+  const tag=$('#roleTag'); tag.textContent=role?'⇄ '+ROLE_L[role]:''; tag.classList.toggle('hidden', !role||ui.locked||!!v);
+  $('#tabbar').classList.toggle('hidden', noTabs);
+  if(!noTabs) $('#tabs').innerHTML = TABS[role].map(([k,l,ic])=>`<button data-act="tab" data-id="${k}" class="${!v&&ui.tab[role]===k?'on':''}"><span class="ic">${ic}</span><span>${l}${badge(k)}</span></button>`).join('');
+  $('#view').innerHTML = ui.locked ? vLock() : onb ? vOnboard() : v ? VIEWS[v.type](v) : SCREENS[role+':'+ui.tab[role]]();
+  initSig();
+  const st=$('#strip .on'); if(st) st.scrollIntoView({inline:'center',block:'nearest'});
+}
+function go(v){ ui.stack.push(ui.view); ui.view=v; render(); window.scrollTo(0,0); }
+function back(){ ui.view=ui.stack.pop()||null; render(); window.scrollTo(0,0); }
+function resetNav(){ ui.view=null; ui.stack=[]; ui.q=''; }
+const fileOf = (blob,name,type) => new File([blob],name,{type:type||blob.type||'application/pdf'});
+
+/* ---------- Actions ---------- */
+async function act(a,el,e){
+  const id=el.dataset.id, v=ui.view;
+  const R = v&&v.type==='req' ? S.requests.find(z=>z.id===v.id) : null;
+  const D = v&&v.type==='dossier' ? S.dossiers.find(z=>z.id===v.id) : null;
+  const E = v&&v.type==='entry' ? S.gate.find(z=>z.id===v.id) : null;
+  switch(a){
+    case 'back': return back();
+    case 'tab': ui.tab[S.role]=id; resetNav(); render(); window.scrollTo(0,0); return;
+    case 'close': return closeModal();
+    case 'hint-off': S.hintDone=true; await persist(); return render();
+    /* profil */
+    case 'pick-role': {
+      const prof={ent:S.company,ca:S.ca,garde:S.garde}[id];
+      if(prof){ S.role=id; ui.prevRole=null; await persist(); resetNav(); return render(); }
+      ui.form = id==='ent' ? {pays:'France'} : id==='ca' ? {fonction:'Chargé d’affaires'} : {}; return go({type:'form',kind:id==='ent'?'company':id,onboarding:true});
+    }
+    case 'demo': seedDemo(); await persist(); resetNav(); render(); return toast('Données de démo chargées · profil Entreprise');
+    case 'edit-profile': { const k=S.role==='ent'?'company':S.role; ui.form=clone(S[k]); return go({type:'form',kind:k}); }
+    case 'form-save': {
+      const K=FORMK[v.kind];
+      if(v.kind==='employee'){ if(!validate(FD.employee) || (ui.form.interim && !validate(FD.agence,'agence'))) return; }
+      else if(!validate(FD[K.defs])) return;
+      if(v.kind==='employee'){
+        const emp=clone(ui.form); emp.veh=emp.veh||{};
+        if(v.id){ const i=S.employees.findIndex(x=>x.id===v.id); S.employees[i]=Object.assign(emp,{id:v.id}); } else { emp.id=uid(); S.employees.push(emp); if(ui.wiz&&ui.stack.some(s=>s&&s.type==='wizard')) ui.wiz.sel[emp.id]={mode:'pieton',veh:Object.assign({type:VTYPES[0]},emp.veh,{motif:''})}; }
+        await persist(); toast('Fiche enregistrée'); ui.form=ui.wiz; return back();
+      }
+      S[v.kind]=clone(ui.form);
+      if(v.onboarding){ S.role=v.kind==='company'?'ent':v.kind; requestPersist(); resetNav(); } else ui.stack.length ? (ui.view=ui.stack.pop()) : (ui.view=null);
+      await persist(); toast('Enregistré'); return render();
+    }
+    case 'switch-role': ui.prevRole=S.role; S.role=null; await persist(); resetNav(); render(); return toast('Vos informations sont conservées pour chaque profil');
+    /* salariés */
+    case 'emp-new': ui.form={pays:'France',nationalite:'Française',veh:{type:VTYPES[0]},agence:{pays:'France'},hab:{},docs:{}}; return go({type:'form',kind:'employee'});
+    case 'emp-edit': { const emp=S.employees.find(x=>x.id===id); ui.form=Object.assign({agence:{pays:'France'},hab:{},docs:{}},clone(emp)); ui.form.veh=Object.assign({type:VTYPES[0]},ui.form.veh); return go({type:'form',kind:'employee',id}); }
+    case 'att-del': { ui.form.atts=(ui.form.atts||[]).filter(a=>a.id!==id); return render(); }
+    case 'emp-del': return askConfirm('Supprimer ce salarié ?','Les demandes déjà créées sont conservées.','Supprimer',async()=>{ S.employees=S.employees.filter(x=>x.id!==v.id); await persist(); back(); toast('Salarié supprimé'); });
+    /* assistant de demande */
+    case 'wiz-new':
+      if(!S.employees.length){ toast('Ajoutez d’abord une fiche salarié'); ui.tab.ent='salaries'; resetNav(); return render(); }
+      ui.wiz={step:0, sel:{}, inter:Object.assign({site:'',lieu:'',objet:'',commande:'',horaires:'',titulaire:TIT[0],tit:{pays:'France'},caNom:'',caEmail:''}, clone(S.lastInter)||{}, {du:addDays(1),au:addDays(1)})}; if(!ui.wiz.inter.tit) ui.wiz.inter.tit={pays:'France'}; ui.form=ui.wiz; return go({type:'wizard'});
+    case 'wsel': { const W=ui.wiz; if(W.sel[id]) delete W.sel[id]; else { const emp=S.employees.find(x=>x.id===id); W.sel[id]={mode:'pieton',veh:Object.assign({type:VTYPES[0]},clone(emp.veh)||{},{motif:''})}; } return render(); }
+    case 'wmode': ui.wiz.sel[id].mode=el.dataset.m; return render();
+    case 'wiz-prev': ui.wiz.step--; render(); return window.scrollTo(0,0);
+    case 'wiz-next': {
+      const W=ui.wiz; ui.form=W;
+      if(W.step===0 && !Object.keys(W.sel).length) return toast('Sélectionnez au moins un salarié');
+      if(W.step===1){ if(!validate(FD.intervention,'inter')) return; if(W.inter.titulaire===TIT[1] && !validate(FD.tit,'inter.tit')) return; if(W.inter.au<W.inter.du) return toast('La date de fin précède la date de début'); }
+      if(W.step===2){ for(const sid of Object.keys(W.sel)) if(W.sel[sid].mode==='vehicule' && !validate(FD.vehicleReq,'sel.'+sid+'.veh')) return; }
+      W.step++; render(); return window.scrollTo(0,0);
+    }
+    case 'wiz-create': {
+      const W=ui.wiz, batch=uid(), ids=Object.keys(W.sel);
+      ids.forEach(sid=>{ const emp=S.employees.find(x=>x.id===sid), c=W.sel[sid]; const empSnap=clone(emp); delete empSnap.veh; delete empSnap.id;
+        S.requests.push({id:uid(),ref:nextRef(),batch,emp:empSnap,intervention:clone(W.inter),mode:c.mode,vehicle:c.mode==='vehicule'?clone(c.veh):null,status:'a_signer',signature:null,pdfId:null,origId:null,createdAt:nowISO()}); });
+      const li=clone(W.inter); delete li.du; delete li.au; S.lastInter=li;
+      if(W.inter.caNom){ S.caBook=(S.caBook||[]).filter(c=>c.nom!==W.inter.caNom); S.caBook.unshift({nom:W.inter.caNom,email:W.inter.caEmail||''}); S.caBook=S.caBook.slice(0,20); }
+      await persist(); ui.wiz=null; ui.tab.ent='demandes'; resetNav(); render(); return toast(`${ids.length} demande${ids.length>1?'s':''} créée${ids.length>1?'s':''} · à faire signer`);
+    }
+    case 'open-req': return go({type:'req',id});
+    /* signature */
+    case 'emp-sign': ui.sigImg=R.empSig||null; return go({type:'empsig',id:R.id});
+    case 'empsig-save': { if(!ui.sigImg) return toast('Le salarié doit signer dans le cadre'); const r=S.requests.find(z=>z.id===v.id); r.empSig=ui.sigImg; ui.sigImg=null; await persist(); back(); return toast('Visa du salarié enregistré'); }
+    case 'sign-one': ui.form={nom:S.company.dirNom,prenom:S.company.dirPrenom||'',fonction:S.company.dirFonction,date:todayISO(),atteste:false}; ui.sigImg=null; return go({type:'sign',ids:[R.id]});
+    case 'sign-all': ui.form={nom:S.company.dirNom,prenom:S.company.dirPrenom||'',fonction:S.company.dirFonction,date:todayISO(),atteste:false}; ui.sigImg=null; return go({type:'sign',ids:S.requests.filter(r=>r.status==='a_signer').map(r=>r.id)});
+    case 'clear-sig': ui.sigImg=null; return render();
+    case 'sign-do': {
+      if(!validate(FD.signer)) return; if(!ui.sigImg) return toast('Signez dans le cadre'); if(!ui.form.atteste) return toast('Cochez l’attestation');
+      toast('Création des PDF…');
+      for(const rid of v.ids){ const r=S.requests.find(z=>z.id===rid);
+        r.signature={nom:ui.form.nom,prenom:ui.form.prenom,fonction:ui.form.fonction,date:ui.form.date,img:ui.sigImg,method:'app'};
+        const blob=await makeRequestPdf(Object.assign({},r,{company:S.company}), await pkgFull(r)); await saveFile('r-'+r.id,fileOf(blob,pdfName(r)),pdfName(r));
+        r.pdfId='r-'+r.id; r.status='signee'; r.signedAt=nowISO(); }
+      ui.sigImg=null; await persist(); back(); return toast(v.ids.length>1?`${v.ids.length} documents signés`:'Document signé');
+    }
+    case 'req-export': { const blob=await makeRequestPdf(Object.assign({},R,{company:S.company}), await pkgFull(R)); return openShare({title:'PDF à faire signer',files:[fileOf(blob,'A-SIGNER_'+pdfName(R))]}); }
+    case 'req-view': { const f=await getFile(R.pdfId); return f ? openPdf(f,f.name) : toast('PDF introuvable'); }
+    case 'req-del': return askConfirm('Supprimer la demande ?','Elle sera effacée de ce téléphone.','Supprimer',async()=>{ await delFile(R.pdfId); await delFile(R.origId); S.requests=S.requests.filter(z=>z.id!==R.id); await persist(); back(); });
+    case 'req-send': return prepareSend([R]);
+    case 'send-all': return prepareSend(S.requests.filter(r=>r.status==='signee'));
+    /* partage */
+    case 'do-share': {
+      const o=ui.share;
+      if(navigator.canShare && navigator.canShare({files:o.files})){
+        navigator.share({files:o.files,title:o.title}).then(async()=>{ closeModal(); if(o.onDone) await o.onDone(); toast('Envoyé'); }).catch(err=>{ if(err.name!=='AbortError') toast('Partage impossible : utilisez « Enregistrer »'); });
+      } else toast('Partage de fichiers indisponible ici : utilisez « Enregistrer »');
+      return;
+    }
+    case 'do-download': { const o=ui.share; o.files.forEach((f,i)=>setTimeout(()=>dl(f,f.name),i*400)); closeModal(); if(o.onDone) await o.onDone(); return toast('Fichier enregistré'); }
+    case 'do-sim': { const o=ui.share; const r=await importFiles(o.files,o.simRole); closeModal(); if(o.onDone) await o.onDone(); return toast(`Reçu côté ${ROLE_L[o.simRole]} : ${r.ok} élément(s) · changez de profil pour le voir`); }
+    case 'pdf-open': { const w=window.open(ui.pdf.url,'_blank'); if(!w) dl(ui.pdf.blob,ui.pdf.name); return; }
+    case 'pdf-share': { const p=ui.pdf; closeModal(); return openShare({title:p.name,files:[fileOf(p.blob,p.name)]}); }
+    /* chargé d’affaires */
+    case 'day': ui.day=id; return render();
+    case 'open-dossier': return go({type:'dossier',id});
+    case 'open-company': return go({type:'company',id});
+    case 'ca-validate': return modal(`<div class="box"><div class="scroll"><h2>Valider la FIDAA</h2><p class="sub">Vos coordonnées sont reportées dans le cadre « Interlocuteur » et votre visa dans « Validation » de la FIDAA.</p>
+      <div class="panel">${kvs([['Nom',h(caName())],['Service',h(S.ca&&S.ca.service)],['Téléphone',h(S.ca&&S.ca.tel)],['E-mail',h(S.ca&&S.ca.email)]])}</div>
+      <label class="chk"><input type="checkbox" id="h24"><span>Profil 24h/24</span></label>
+      ${S.ca&&S.ca.sig?'':'<div class="hint" style="margin-top:12px">✍️ Enregistrez votre signature dans Réglages pour qu’elle apparaisse sur la FIDAA.</div>'}
+      <div class="row2" style="margin-top:14px"><button class="btn ghost" data-act="close">Annuler</button><button class="btn ok" data-act="ca-validate-do">Valider</button></div></div></div>`);
+    case 'ca-validate-do': {
+      const h24=$('#h24').checked; closeModal(); const c=S.ca||{};
+      D.validation={nom:c.nom||'',prenom:c.prenom||'',service:c.service||'',fonction:c.fonction||'',tel:c.tel||'',email:c.email||'',date:todayISO(),h24,sig:c.sig||null};
+      await makeValidPdf(D); D.status='valide'; D.history.push({t:now(),what:'Dossier validé'+(h24?' (profil 24h/24)':'')}); await persist(); render(); return toast('FIDAA validée');
+    }
+    case 'd-valid': { let f=D.validPdfId?await getFile(D.validPdfId):null; if(!f){ await makeValidPdf(D); await persist(); f=await getFile(D.validPdfId); } return openPdf(f,f.name); }
+    case 'ca-sig': ui.sigImg=(S.ca&&S.ca.sig)||null; return go({type:'casig'});
+    case 'ca-sig-save': if(!ui.sigImg) return toast('Signez dans le cadre'); S.ca.sig=ui.sigImg; ui.sigImg=null; await persist(); back(); return toast('Signature enregistrée');
+    case 'ca-sig-del': S.ca.sig=null; ui.sigImg=null; await persist(); back(); return toast('Signature supprimée');
+    case 'ca-refuse': return askReason('Refuser le dossier',async r=>{ D.status='refuse'; D.motif=r; D.history.push({t:now(),what:'Refusé : '+r}); await persist(); render(); toast('Dossier refusé'); });
+    case 'd-pdf': { const f=D.pdfId?await getFile(D.pdfId):null; const blob=f||await makeRequestPdf(D); return openPdf(blob,f?f.name:`${D.ref}_${safe(D.emp.nom)}.pdf`); }
+    case 'd-att': { const f=await getFile(id); return f?openPdf(f,f.name):toast('Fichier introuvable'); }
+    case 'd-orig': { const f=await getFile(D.origId); return f?openPdf(f,f.name):toast('Original introuvable'); }
+    case 'd-del': return askConfirm('Supprimer le dossier ?','Il sera effacé de ce téléphone.','Supprimer',async()=>{ await delFile(D.pdfId); await delFile(D.origId); await delFile(D.validPdfId); for(const a of D.atts||[]) await delFile(a.id); S.dossiers=S.dossiers.filter(z=>z.id!==D.id); await persist(); back(); });
+    case 'send-day': { const L=forDay(ui.day).filter(d=>d.status!=='recu'); return sendToGate(L,`Liste d’accès du ${fmtD(ui.day)}`,`Liste-acces_${ui.day}.pdf`,`${longDate(ui.day)} — ${S.ca?S.ca.site:''}`); }
+    case 'send-one': return sendToGate([D],'Autorisation d’accès',`Acces_${D.ref}_${safe(D.emp.nom)}.pdf`,`${D.emp.prenom} ${D.emp.nom} — ${D.company.raison}`);
+    case 'zip': return exportZip();
+    /* poste de garde */
+    case 'open-entry': return go({type:'entry',id});
+    case 'g-grant': S.log.push({id:uid(),entryId:E.id,date:todayISO(),time:hm(),decision:'ok',motif:'',nom:E.nom,prenom:E.prenom,societe:E.societe,immat:E.immat,poste:S.garde&&S.garde.poste||''}); await persist(); render(); return toast('Entrée enregistrée');
+    case 'g-refuse': return askReason('Refuser l’entrée',async r=>{ S.log.push({id:uid(),entryId:E.id,date:todayISO(),time:hm(),decision:'ko',motif:r,nom:E.nom,prenom:E.prenom,societe:E.societe,immat:E.immat,poste:S.garde&&S.garde.poste||''}); await persist(); render(); toast('Refus enregistré'); });
+    case 'csv-log': { const rows=[['Date','Heure','Poste','Nom','Prénom','Société','Immatriculation','Décision','Motif']].concat([...S.log].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).map(p=>[fmtD(p.date),p.time,p.poste||'',p.nom,p.prenom,p.societe,p.immat,p.decision==='ok'?'Autorisé':'Refusé',p.motif]));
+      return openShare({title:'Registre des passages',files:[fileOf(new Blob([csv(rows)],{type:'text/csv'}),`Registre_${todayISO()}.csv`,'text/csv')]}); }
+    /* sécurité & données */
+    case 'pin-set': return modal(`<div class="box"><div class="scroll"><h2>Code de verrouillage</h2><p class="sub">4 à 8 chiffres, demandé à l’ouverture de l’app.</p>
+      <label class="fld"><span>Nouveau code</span><input id="pin1" type="password" inputmode="numeric" maxlength="8"></label><label class="fld"><span>Confirmer</span><input id="pin2" type="password" inputmode="numeric" maxlength="8"></label>
+      <div class="row2"><button class="btn ghost" data-act="close">Annuler</button><button class="btn" data-act="pin-save">Enregistrer</button></div></div></div>`);
+    case 'pin-save': { const p1=$('#pin1').value, p2=$('#pin2').value; if(!/^\d{4,8}$/.test(p1)) return toast('4 à 8 chiffres'); if(p1!==p2) return toast('Les codes ne correspondent pas');
+      S.settings.pinHash=await hash(p1); await persist(); closeModal(); render(); return toast('Code enregistré'); }
+    case 'pin-del': S.settings.pinHash=null; await persist(); render(); return toast('Code supprimé');
+    case 'unlock': { const p=$('#pinIn').value; if(await hash(p)===S.settings.pinHash){ ui.locked=false; render(); } else { toast('Code incorrect'); $('#pinIn').value=''; } return; }
+    case 'backup': return exportBackup();
+    case 'wipe': return askConfirm('Effacer toutes les données ?','Tous les profils, salariés, demandes, dossiers et le registre seront supprimés de ce téléphone. Pensez à exporter une sauvegarde avant.','Tout effacer',async()=>{ await Store.clear(); S=defaultS(); ui.locked=false; resetNav(); render(); toast('Données effacées'); });
+  }
+}
+async function prepareSend(list){
+  if(!list.length) return;
+  const files=[]; for(const r of list){ const f=await getFile(r.pdfId); if(f) files.push(fileOf(f,pdfName(r))); const o=r.origId?await getFile(r.origId):null; if(o) files.push(fileOf(o,'ORIGINAL-SIGNE_'+pdfName(r))); }
+  openShare({title:list.length>1?`${list.length} demandes d’accès`:'Demande d’accès',files,simRole:'ca',
+    onDone:async()=>{ list.forEach(r=>{ r.status='envoyee'; r.sentAt=nowISO(); }); await persist(); render(); }});
+}
+async function sendToGate(list,title,fname,sub){
+  if(!list.length) return toast('Aucun dossier validé');
+  const data={type:'acces-site/liste',v:1,site:S.ca?S.ca.site:'',from:caName(),sentAt:nowISO(),entries:list.map(entryFrom)};
+  const blob=await makeListPdf(title,sub,data.entries,data);
+  openShare({title:'Envoyer au poste de garde',files:[fileOf(blob,fname)],simRole:'garde',
+    onDone:async()=>{ list.forEach(d=>{ if(d.status==='valide'){ d.status='transmis'; d.transmittedAt=nowISO(); } d.history.push({t:now(),what:'Transmis au poste de garde'}); }); await persist(); render(); }});
+}
+async function exportZip(){
+  toast('Préparation du ZIP…');
+  const L=[...S.dossiers].sort((a,b)=>a.intervention.du.localeCompare(b.intervention.du)), entries=[], root='Dossiers_Acces_Site/';
+  for(const d of L){ const f=(d.validPdfId?await getFile(d.validPdfId):null)||(d.pdfId?await getFile(d.pdfId):null), blob=f||await makeRequestPdf(d), base=`${root}${safe(d.company.raison)}/${d.intervention.du}_${safe(d.emp.nom)}_${safe(d.emp.prenom)}_${safe(d.ref)}`;
+    entries.push({name:base+'.pdf',data:new Uint8Array(await blob.arrayBuffer())});
+    if(d.origId){ const o=await getFile(d.origId); if(o) entries.push({name:base+'_original-signe.pdf',data:new Uint8Array(await o.arrayBuffer())}); }
+    for(const a of d.atts||[]){ const o=await getFile(a.id); if(o) entries.push({name:base+'_PJ_'+safe(a.name),data:new Uint8Array(await o.arrayBuffer())}); } }
+  const rows=[['Début','Fin','Société','Nom','Prénom','Accès','Immatriculation','Statut','Réf.']].concat(L.map(d=>[fmtD(d.intervention.du),fmtD(d.intervention.au),d.company.raison,d.emp.nom,d.emp.prenom,d.mode==='vehicule'?'Piéton + véhicule':'Piéton',d.vehicle?d.vehicle.immat:'',DS[d.status].l,d.ref]));
+  entries.push({name:root+'Planning.csv',data:new TextEncoder().encode(csv(rows))});
+  openShare({title:'Export des dossiers',files:[fileOf(makeZip(entries),`Dossiers_Acces_Site_${todayISO()}.zip`,'application/zip')]});
+}
+async function exportBackup(){
+  const ids=[]; S.requests.forEach(r=>ids.push(r.pdfId,r.origId)); S.dossiers.forEach(d=>{ ids.push(d.pdfId,d.origId,d.validPdfId); (d.atts||[]).forEach(a=>ids.push(a.id)); }); S.employees.forEach(e=>(e.atts||[]).forEach(a=>ids.push(a.id)));
+  const files={}; for(const id of ids.filter(Boolean)){ const r=await Store.get('files',id); if(r) files[id]={type:r.type,name:r.name,data:btoa(u8ToBin(new Uint8Array(r.buf)))}; }
+  const data={type:'acces-site/backup',v:1,date:nowISO(),S:Object.assign(clone(S),{settings:Object.assign({},S.settings,{pinHash:null})}),files};
+  openShare({title:'Sauvegarde',files:[fileOf(new Blob([JSON.stringify(data)],{type:'application/json'}),`AccesSite_sauvegarde_${todayISO()}.json`,'application/json')]});
+}
+async function restoreBackup(file){
+  let data; try{ data=JSON.parse(await file.text()); }catch(e){ return toast('Fichier illisible'); }
+  if(!data||data.type!=='acces-site/backup') return toast('Ce n’est pas une sauvegarde Accès Site');
+  askConfirm('Restaurer la sauvegarde ?',`Sauvegarde du ${fmtD(data.date)}. Les données actuelles de ce téléphone seront remplacées.`,'Restaurer',async()=>{
+    await Store.clear(); for(const [id,f] of Object.entries(data.files||{})) await saveFile(id,b64ToBlob(f.data,f.type),f.name);
+    S=Object.assign(defaultS(),data.S); await persist(); resetNav(); render(); toast('Sauvegarde restaurée'); });
+}
+
+/* ---------- Événements ---------- */
+document.addEventListener('click',e=>{
+  if(e.target.id==='modal') return closeModal();
+  const el=e.target.closest('[data-act]'); if(!el) return;
+  Promise.resolve(act(el.dataset.act,el,e)).catch(err=>{ console.error(err); toast('Erreur : '+err.message); });
+});
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.f && ui.form && t.type!=='checkbox'){ setPath(ui.form,t.dataset.f,t.value); const f=t.closest('.fld'); f&&f.classList.remove('err'); }
+  if(t.id==='q'){ ui.q=t.value; const r=$('#results'); if(r) r.innerHTML=RESULTS[S.role](); }
+});
+document.addEventListener('change',async e=>{
+  const t=e.target;
+  try{
+    if(t.dataset.f && ui.form && t.type==='checkbox') setPath(ui.form,t.dataset.f,t.checked);
+    if(t.dataset.rr){ const y=window.scrollY; render(); window.scrollTo(0,y); }
+    if(t.id==='f_inter_caNom' && ui.form && ui.form.inter){ const c=(S.caBook||[]).find(x=>x.nom===t.value); const em=$('#f_inter_caEmail'); if(c && c.email && em && !em.value){ em.value=c.email; ui.form.inter.caEmail=c.email; } }
+    if(t.id==='retSel'){ S.settings.retention=+t.value; await persist(); const n=await purge(); toast(n?`${n} élément(s) ancien(s) effacé(s)`:'Réglage enregistré'); render(); }
+    if(t.id==='importIn' && t.files.length){ const r=await importFiles([...t.files]); render(); toast(r.ok?`${r.ok} élément${r.ok>1?'s':''} importé${r.ok>1?'s':''}${r.skip?` · ${r.skip} fichier(s) ignoré(s)`:''}${r.note}`:`Aucun dossier Accès Site trouvé dans ce fichier${r.note}`); }
+    if(t.dataset.att && t.files[0] && ui.form){
+      let f=t.files[0]; const isImg=/^image\//.test(f.type);
+      if(!isImg && !/pdf/i.test(f.type) && !/\.pdf$/i.test(f.name)) return toast('Photo ou PDF uniquement');
+      if(isImg){ const c=await compressImg(f); if(!c) return toast('Image illisible'); f=c; }
+      if(f.size>8e6) return toast('Fichier trop lourd (8 Mo max)');
+      const a={id:'att-'+uid(),key:t.dataset.att,name:f.name,type:f.type||'application/pdf',size:f.size}; await saveFile(a.id,f,f.name);
+      ui.form.atts=(ui.form.atts||[]).concat(a); setPath(ui.form,'docs.'+a.key,true); const y=window.scrollY; render(); window.scrollTo(0,y); return toast('Fichier joint');
+    }
+    if(t.id==='restoreIn' && t.files[0]){ await restoreBackup(t.files[0]); t.value=''; }
+    if(t.id==='signedIn' && t.files[0]){
+      const f=t.files[0], R=S.requests.find(z=>z.id===ui.view.id);
+      R.signature={nom:S.company.dirNom,prenom:S.company.dirPrenom||'',fonction:S.company.dirFonction,date:todayISO(),method:'pdf'};
+      await saveFile('r-'+R.id+'-o',f,'ORIGINAL-SIGNE_'+pdfName(R)); R.origId='r-'+R.id+'-o';
+      const blob=await makeRequestPdf(Object.assign({},R,{company:S.company}), await pkgFull(R,{name:'ORIGINAL-SIGNE_'+pdfName(R),data:await blobToB64(f)}));
+      await saveFile('r-'+R.id,fileOf(blob,pdfName(R)),pdfName(R)); R.pdfId='r-'+R.id; R.status='signee'; R.signedAt=nowISO();
+      await persist(); render(); toast('PDF signé importé');
+    }
+  }catch(err){ console.error(err); toast('Erreur : '+err.message); }
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Enter' && e.target.id==='pinIn') act('unlock',e.target,e); });
+document.addEventListener('visibilitychange',()=>{ if(document.hidden) ui.hiddenAt=Date.now(); else if(S.settings.pinHash && ui.hiddenAt && Date.now()-ui.hiddenAt>60000 && !ui.locked){ ui.locked=true; closeModal(); render(); } });
+window.addEventListener('resize',()=>{ if($('#sig')) initSig(); });
+
+/* ---------- Démarrage ---------- */
+(async()=>{
+  await Store.open();
+  try{ const saved=await Store.get('kv','S'); if(saved) S=Object.assign(defaultS(),saved); }catch(e){}
+  ui.locked=!!S.settings.pinHash;
+  await purge(); render();
+  if(!Store.db) toast('Stockage local indisponible : les données ne seront pas conservées');
+})();
+</script>
+</body>
+</html>
